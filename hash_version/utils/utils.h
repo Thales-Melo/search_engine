@@ -4,8 +4,6 @@
 
 #include "../std_data/vector/vector.h"
 
-
-typedef char* key_type;
 typedef void* data_type;
 
 
