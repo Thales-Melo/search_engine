@@ -28,4 +28,19 @@ void node_set_left(Node *N, Node *left);
 
 void node_set_right(Node *N, Node *right);
 
+//////////////////////////////////////////////////
+
+Node *node_find_min(Node *node);
+
+Node *node_find_max(Node *node);
+
+// Node *node_remove(Node *root, key_type key, void (*free_func)(data_type));
+
+//////////////////////////////////////////////////
+
+Node *node_search (Node *node, key_type key);
+
+Node *node_remove(Node *root, key_type key);
+
+
 #endif

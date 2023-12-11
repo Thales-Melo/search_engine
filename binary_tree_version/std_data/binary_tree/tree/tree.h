@@ -23,10 +23,12 @@ data_type tree_min (Tree *tree);
 
 void tree_print (Tree *tree);
 
-// Node *tree_search (Tree *tree, key_type key);
+//////////////////////////////////////////////////
 
-// void tree_delete (Tree *tree, Node *z, void (*free_func)(data_type));
+data_type tree_search(Tree *tree, key_type key);
 
-// void tree_remove (Tree *tree, key_type key, void (*free_func)(data_type));
+int tree_contains_key(Tree *tree, key_type key);
+
+void tree_remove(Tree *tree, key_type key);
 
 #endif

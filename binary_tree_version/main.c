@@ -29,10 +29,12 @@ int main(int argc, char **argv)
     Tree *tree = tree_construct();
 
     printf ("\n\n");
-
+    
     tree_add(tree, "hillsong", "hillsong");
     tree_add(tree, "abacate", "abacate");
-    tree_add(tree, "flamengo", "flamengo");
+    char *a = strdup("flamengo");
+    tree_add(tree, "flamengo", a);
+    // tree_add(tree, "flamengo", "flamengo");
     tree_add(tree, "dado", "dado");
     tree_add(tree, "castanheiras", "castanheiras");
     tree_add(tree, "bola", "bola");
@@ -40,6 +42,8 @@ int main(int argc, char **argv)
     tree_print(tree);
 
     // tree_remove(tree, "dado", NULL);
+
+    tree_remove(tree, "flamengo");
 
     printf ("\n\n");
 
