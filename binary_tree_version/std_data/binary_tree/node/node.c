@@ -8,7 +8,6 @@ typedef struct Node {
     data_type value;
     Node *left;
     Node *right;
-    Node *parent;
 } Node;
 
 Node *node_construct (key_type key, data_type value, Node *left, Node *right) {
@@ -84,9 +83,6 @@ void node_print (Node *N) {
     node_print(N->right);
 }
 
-Node *node_parent(Node *N) {
-    return N->parent;
-}
 
 void node_set_left(Node *N, Node *left) {
     N->left = left;
@@ -183,4 +179,57 @@ Node *node_remove(Node *root, key_type key) {
         return NULL;
     }
     return node_remove_recursive(root, key);
+}
+
+
+// void node_print_level_order (Node *root) {
+//     if (root == NULL) {
+//         return;
+//     }
+
+//     Queue *queue = queue_construct();
+//     queue_enqueue(queue, root);
+
+//     while (!queue_is_empty(queue)) {
+//         Node *node = queue_dequeue(queue);
+//         printf("%s ", (char*)node->value);
+//         if (node->left != NULL) {
+//             queue_enqueue(queue, node->left);
+//         }
+//         if (node->right != NULL) {
+//             queue_enqueue(queue, node->right);
+//         }
+//     }
+//     queue_destroy(queue);
+// }
+
+
+void node_print_in_order (Node *root) {
+    if (root == NULL) {
+        return;
+    }
+
+    node_print_in_order(root->left);
+    printf("%s ", (char*)root->value);
+    node_print_in_order(root->right);
+}
+    
+void node_print_pre_order (Node *root) {
+    if (root == NULL) {
+        return;
+    }
+
+    printf("%s ", (char*)root->value);
+    node_print_pre_order(root->left);
+    node_print_pre_order(root->right);
+}
+
+void node_print_post_order (Node *root) {
+    if (root == NULL) {
+        return;
+    }
+
+    node_print_post_order(root->left);
+    node_print_post_order(root->right);
+    printf("%s ", (char*)root->value);
 }

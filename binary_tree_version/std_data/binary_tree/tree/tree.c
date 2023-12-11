@@ -71,3 +71,31 @@ void tree_remove(Tree *tree, key_type key) {
     tree->root = node_remove(tree->root, key);
     tree->size--;
 }
+
+// lever order
+void tree_print_level_order(Tree *tree) {
+    printf("Tree: ");
+    node_print_level_order(tree->root);
+    printf("\n");
+}
+
+// pre order
+void tree_print_pre_order(Tree *tree) {
+    printf("Tree: ");
+    node_print_pre_order(tree->root);
+    printf("\n");
+}
+
+// in order
+void tree_print_in_order(Tree *tree) {
+    printf("Tree: ");
+    node_print_in_order(tree->root);
+    printf("\n");
+}
+
+// post order
+void tree_print_post_order(Tree *tree) {
+    printf("Tree: ");
+    node_print_post_order(tree->root);
+    printf("\n");
+}

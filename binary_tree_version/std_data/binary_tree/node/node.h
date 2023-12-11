@@ -43,4 +43,15 @@ Node *node_search (Node *node, key_type key);
 Node *node_remove(Node *root, key_type key);
 
 
+//////////////////////////////////////////////////
+
+void node_print_level_order (Node *root);
+
+void node_print_in_order (Node *root);
+    
+void node_print_pre_order (Node *root);
+
+void node_print_post_order (Node *root);
+
+
 #endif
