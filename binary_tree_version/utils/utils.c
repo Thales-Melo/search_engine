@@ -1,6 +1,7 @@
 #include "utils.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 Vector *string_split(char *str)
 {
@@ -19,6 +20,7 @@ Vector *string_split(char *str)
     return words;
 }
 
+
 void libera_dados(Vector *words)
 {
     for (int i = 0; i < vector_size(words); i++)
@@ -29,9 +31,26 @@ void libera_dados(Vector *words)
     vector_destroy(words);
 }
 
+
 // precisamos fazer essa funcao porque as funcoes do vector esperam como argumento
 // uma funcao que recebe dois void* e nao dois char*.
 int compara_strings(void *a, void *b)
 {
     return strcmp((char *)a, (char *)b);
+}
+
+
+void print_string(void *a)
+{
+    printf("%s\n", (char *)a);
+}
+
+void print_key(void *a)
+{
+    printf("key: %s\n", (char *)a);
+}
+
+void print_val(void *a)
+{
+    printf("val: %s\n", (char *)a);
 }

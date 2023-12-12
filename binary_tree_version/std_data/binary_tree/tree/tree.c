@@ -4,39 +4,62 @@
 #include <stdio.h>
 #include <string.h>
 
+
 typedef struct Tree {
     Node *root;
     int size;
+    CmpFn cmp_fn;
+    KeyDestroyFn key_destroy_fn;
+    ValDestroyFn val_destroy_fn;
+    KeyPrintFn key_print_fn;
+    ValPrintFn val_print_fn;
 } Tree;
 
-Tree *tree_construct () {
+
+Tree *tree_construct (CmpFn cmp_fn, KeyDestroyFn key_destroy_fn, ValDestroyFn val_destroy_fn, KeyPrintFn key_print_fn, ValPrintFn val_print_fn) {
     Tree *tree = (Tree*)malloc(sizeof(Tree));
-    // tree->root = node_construct(NULL, NULL, NULL, NULL);
+
     tree->root = NULL;
+    tree->size = 0;
+    tree->cmp_fn = cmp_fn;
+    tree->key_destroy_fn = key_destroy_fn;
+    tree->val_destroy_fn = val_destroy_fn;
+    tree->key_print_fn = key_print_fn;
+    tree->val_print_fn = val_print_fn;
+
     return tree;
 }
 
-void tree_destroy (Tree *tree, void (*free_func)(data_type)) {
+
+void tree_destroy (Tree *tree) {
     // libera a memória recursivamente a partir da raiz
-    node_destroy(tree->root, free_func);
+    node_destroy(tree->root, tree->val_destroy_fn, tree->key_destroy_fn);
     if (tree != NULL) {
         free(tree);
+        tree = NULL;
     }
 }
+
 
 int tree_size (Tree *tree) {
     return tree->size;
 }
 
+
 data_type tree_root (Tree *tree) {
     return node_value(tree->root);
 }
 
+
 void tree_add (Tree *tree, key_type key, data_type value) {
-    tree->root = node_add_recursive(tree->root, key, value);
+    tree->root = node_add_recursive(tree->root, key_val_pair_construct(key, value), tree->cmp_fn);
 }
 
+
 data_type tree_max (Tree *tree) {
+    if (tree_empty(tree)) {
+        return NULL;
+    }
     Node *node = tree->root;
     while (node_right(node) != NULL) {
         node = node_right(node);
@@ -44,7 +67,11 @@ data_type tree_max (Tree *tree) {
     return node_value(node);
 }
 
+
 data_type tree_min (Tree *tree) {
+    if (tree_empty(tree)) {
+        return NULL;
+    }
     Node *node = tree->root;
     while (node_left(node) != NULL) {
         node = node_left(node);
@@ -52,50 +79,62 @@ data_type tree_min (Tree *tree) {
     return node_value(node);
 }
 
+
 void tree_print (Tree *tree) {
-    printf("Tree: ");
-    node_print(tree->root);
+    printf("Tree: \n\n");
+    node_print(tree->root, tree->key_print_fn, tree->val_print_fn);
     printf("\n");
 }
 
+
 data_type tree_search(Tree *tree, key_type key) {
-    Node *node = node_search(tree->root, key);
+    Node *node = node_search(tree->root, key, tree->cmp_fn);
     return node != NULL ? node_value(node): NULL;
 }
 
+
 int tree_contains_key(Tree *tree, key_type key) {
-    return node_search(tree->root, key) != NULL;
+    return node_search(tree->root, key, tree->cmp_fn) != NULL;
 }
 
+
 void tree_remove(Tree *tree, key_type key) {
-    tree->root = node_remove(tree->root, key);
+    tree->root = node_remove(tree->root, key, tree->cmp_fn, tree->val_destroy_fn, tree->key_destroy_fn);
+    printf ("tree_remove\n");
     tree->size--;
 }
 
-// lever order
-void tree_print_level_order(Tree *tree) {
-    printf("Tree: ");
-    node_print_level_order(tree->root);
-    printf("\n");
+int tree_empty (Tree *tree) {
+    return tree->root == NULL;
 }
+
+// lever order
+// void tree_print_level_order(Tree *tree) {
+//    printf("Tree: ");
+//    node_print_level_order(tree->root);
+//    printf("\n");
+// }
+
 
 // pre order
 void tree_print_pre_order(Tree *tree) {
     printf("Tree: ");
-    node_print_pre_order(tree->root);
+    node_print_pre_order(tree->root, tree->key_print_fn, tree->val_print_fn);
     printf("\n");
 }
+
 
 // in order
 void tree_print_in_order(Tree *tree) {
     printf("Tree: ");
-    node_print_in_order(tree->root);
+    node_print_in_order(tree->root, tree->key_print_fn, tree->val_print_fn);
     printf("\n");
 }
+
 
 // post order
 void tree_print_post_order(Tree *tree) {
     printf("Tree: ");
-    node_print_post_order(tree->root);
+    node_print_post_order(tree->root, tree->key_print_fn, tree->val_print_fn);
     printf("\n");
 }

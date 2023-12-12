@@ -4,83 +4,84 @@
 #include <string.h>
 
 typedef struct Node {
-    key_type key;
-    data_type value;
+    KeyValPair *key_val;
     Node *left;
     Node *right;
 } Node;
 
-Node *node_construct (key_type key, data_type value, Node *left, Node *right) {
+
+Node *node_construct (KeyValPair *key_val, Node *left, Node *right) {
     Node *N = (Node*)malloc(sizeof(Node));
 
-    N->key = key;
-    N->value = value;
+    N->key_val = key_val;
     N->left = left;
     N->right = right;
 
     return N;
 }
 
-void node_destroy(Node *N, void (*free_func)(data_type)) {
+
+void node_destroy(Node *N, void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type)) {
     if (N == NULL) {
         return;
     }
 
     // destruir os filhos (recursivamente)
-    node_destroy(N->left, free_func);
-    node_destroy(N->right, free_func);
+    node_destroy(N->left, val_destroy_fn, key_destroy_fn);
+    node_destroy(N->right, val_destroy_fn, key_destroy_fn);
 
     // agora sim libera a memória do nó
-    if (free_func != NULL) {
-        if (N->value != NULL) {
-            free_func(N->value);
-            N->value = NULL;
-        }
-    }
+    key_val_pair_destroy(N->key_val, val_destroy_fn, key_destroy_fn);
     if (N != NULL) {
         free(N);
         N = NULL;
     }
 }
 
+
 key_type node_key (Node *N) {
-    return N->key;
+    return key_val_pair_key(N->key_val);
 }
 
+
 data_type node_value (Node *N) {
-    return N->value;
+    return key_val_pair_value(N->key_val);
 }
+
 
 Node *node_right (Node *N) {
     return N->right;
 }
 
+
 Node *node_left (Node *N) {
     return N->left;
 }
 
-Node *node_add_recursive(Node *node, key_type key, data_type value) {
+
+Node *node_add_recursive(Node *node, KeyValPair *key_val, int (*cmp_fn)(data_type, data_type)) {
     if (node == NULL) {
-        return node_construct(key, value, NULL, NULL);
-    }
-    if (strcmp(key, node->key) < 0) {
-        node->left = node_add_recursive(node->left, key, value);
-    }
-    else {
-        node->right = node_add_recursive(node->right, key, value);
+        return node_construct(key_val, NULL, NULL);
     }
 
-    return node;
+    if (cmp_fn(key_val_pair_key(key_val), key_val_pair_key(node->key_val)) < 0) {
+        node->left = node_add_recursive(node->left, key_val, cmp_fn);
+    } else {
+        node->right = node_add_recursive(node->right, key_val, cmp_fn);
+    }
+
+    return node;  // Adicionado o retorno aqui para conectar o nó pai ao novo nó.
 }
 
-void node_print (Node *N) {
+
+void node_print (Node *N, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (N == NULL) {
         return;
     }
     
-    node_print(N->left);
-    printf("%s ", (char*)N->value);
-    node_print(N->right);
+    key_val_pair_print(N->key_val, key_print_fn, val_print_fn);
+    node_print(N->left, key_print_fn, val_print_fn);
+    node_print(N->right, key_print_fn, val_print_fn);
 }
 
 
@@ -88,9 +89,11 @@ void node_set_left(Node *N, Node *left) {
     N->left = left;
 }
 
+
 void node_set_right(Node *N, Node *right) {
     N->right = right;
 }
+
 
 /////////////////////////////////////////////////////////////
 
@@ -99,86 +102,68 @@ int compare_keys (key_type key1, key_type key2) {
 }
 
 
-
 /////////////////////////////////////////////////////////////
 // FUNÇÕES DE BUSCA
 /////////////////////////////////////////////////////////////
 
-Node *node_search (Node *node, key_type key) {
+Node *node_search (Node *node, key_type *key, int (*cmp_fn)(data_type, data_type)) {
     if (node == NULL) {
         return NULL;
     }
 
-    if (strcmp(key, node->key) == 0) {
+    if (key_val_pair_cmp(key, key_val_pair_key(node->key_val), cmp_fn) == 0) {
         return node;
     }
 
-    if (strcmp(key, node->key) < 0) {
-        return node_search(node->left, key);
+    if (key_val_pair_cmp(key, key_val_pair_key(node->key_val), cmp_fn) < 0) {
+        return node_search(node->left, key, cmp_fn);
     }
 
     else {
-        return node_search(node->right, key);
+        return node_search(node->right, key, cmp_fn);
     }
 }
 
 
-Node* node_remove_recursive(Node *node, key_type key) {
+Node *node_remove_recursive(Node *node, key_type *key, int (*cmp_fn)(data_type, data_type), void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type)) {
     if (node == NULL) {
         return NULL;
     }
 
-    if (strcmp(key, node->key) < 0) {
-        node->left = node_remove_recursive(node->left, key);
-    }
-
-    else if (strcmp(key, node->key) > 0) {
-        node->right = node_remove_recursive(node->right, key);
-    }
-
-    else {
+    if (key_val_pair_cmp(key, key_val_pair_key(node->key_val), cmp_fn) < 0) {
+        node->left = node_remove_recursive(node->left, key, cmp_fn, val_destroy_fn, key_destroy_fn);
+    } else if (key_val_pair_cmp(key, key_val_pair_key(node->key_val), cmp_fn) > 0) {
+        node->right = node_remove_recursive(node->right, key, cmp_fn, val_destroy_fn, key_destroy_fn);
+    } else {
         if (node->left == NULL && node->right == NULL) {
-            if (node != NULL) {
-                free(node->value);
-                free(node);
-                node = NULL;
-            }
+            key_val_pair_destroy(node->key_val, val_destroy_fn, key_destroy_fn);
+            free(node);
             return NULL;
-        } 
-        else if (node->left == NULL || node->right == NULL) {
-            Node *temp;
-            if (node->left == NULL) {
-                temp = node->right;
-            }
-            else {
-                temp = node->left;
-            }
-            if (node != NULL) {
-                free(node->value);
-                free(node);
-                node = NULL;
-            }
+        } else if (node->left == NULL || node->right == NULL) {
+            Node *temp = (node->left == NULL) ? node->right : node->left;
+            key_val_pair_destroy(node->key_val, val_destroy_fn, key_destroy_fn);
+            free(node);
             return temp;
-        } 
-        else {
-            Node * temp = node->right;
-            while (temp != NULL) {
+        } else {
+            Node *temp = node->right;
+            while (temp->left != NULL) {
                 temp = temp->left;
             }
-            node->key = temp->key;
-            node->value = temp->value;
-            node->right = node_remove_recursive(node->right, temp->key);
+            key_val_pair_set_key(node->key_val, key_val_pair_key(temp->key_val));
+            key_val_pair_set_value(node->key_val, key_val_pair_value(temp->key_val));
+            node->right = node_remove_recursive(node->right, key_val_pair_key(temp->key_val), cmp_fn, val_destroy_fn, key_destroy_fn);
         }
     }
     return node;
 }
 
-Node *node_remove(Node *root, key_type key) {
-    Node *node = node_search(root, key);
+
+Node *node_remove(Node *root, key_type *key, int (*cmp_fn)(data_type, data_type), void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type)) {
+    Node *node = node_search(root, key, cmp_fn);
     if (node == NULL) {
         return NULL;
     }
-    return node_remove_recursive(root, key);
+    return node_remove_recursive(root, key, cmp_fn, val_destroy_fn, key_destroy_fn);
 }
 
 
@@ -204,32 +189,32 @@ Node *node_remove(Node *root, key_type key) {
 // }
 
 
-void node_print_in_order (Node *root) {
+void node_print_in_order (Node *root, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (root == NULL) {
         return;
     }
 
-    node_print_in_order(root->left);
-    printf("%s ", (char*)root->value);
-    node_print_in_order(root->right);
+    node_print_in_order(root->left, key_print_fn, val_print_fn);
+    key_val_pair_print(root->key_val, key_print_fn, val_print_fn);
+    node_print_in_order(root->right, key_print_fn, val_print_fn);
 }
     
-void node_print_pre_order (Node *root) {
+void node_print_pre_order (Node *root, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (root == NULL) {
         return;
     }
 
-    printf("%s ", (char*)root->value);
-    node_print_pre_order(root->left);
-    node_print_pre_order(root->right);
+    key_val_pair_print(root->key_val, key_print_fn, val_print_fn);
+    node_print_pre_order(root->left, key_print_fn, val_print_fn);
+    node_print_pre_order(root->right, key_print_fn, val_print_fn);
 }
 
-void node_print_post_order (Node *root) {
+void node_print_post_order (Node *root, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (root == NULL) {
         return;
     }
 
-    node_print_post_order(root->left);
-    node_print_post_order(root->right);
-    printf("%s ", (char*)root->value);
+    node_print_post_order(root->left, key_print_fn, val_print_fn);
+    node_print_post_order(root->right, key_print_fn, val_print_fn);
+    key_val_pair_print(root->key_val, key_print_fn, val_print_fn);
 }

@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wno-unused-result -g
 
-SRCS = main.c std_data/binary_tree/tree/tree.c std_data/binary_tree/node/node.c std_data/vector/vector.c utils/utils.c 
+SRCS = main.c std_data/binary_tree/tree/tree.c std_data/binary_tree/node/node.c std_data/binary_tree/key_val_pair/key_val_pair.c std_data/vector/vector.c utils/utils.c 
 OBJS = $(SRCS:.c=.o)
 
 all: main
