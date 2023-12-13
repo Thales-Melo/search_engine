@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 Vector *string_split(char *str)
 {
@@ -60,4 +61,12 @@ void print_key(void *a)
 void print_val(void *a)
 {
     printf("val: %s\n", (char *)a);
+}
+
+
+double get_timestamp()
+{
+    struct timespec now;
+    timespec_get(&now, TIME_UTC);
+    return now.tv_sec + (((double)now.tv_nsec) / 1e9);
 }

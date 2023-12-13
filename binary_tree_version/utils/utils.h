@@ -19,5 +19,6 @@ void print_key(void *a);
 
 void print_val(void *a);
 
+double get_timestamp();
 
 #endif
