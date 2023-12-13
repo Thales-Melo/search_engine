@@ -23,9 +23,16 @@ Vector *string_split(char *str)
 
 void libera_dados(Vector *words)
 {
-    for (int i = 0; i < vector_size(words); i++)
+    if (words == NULL) return;
+    char *word = NULL;
+    for (int i = 0; i < vector_size(words); i++) {
         // libera os espacos alocados pelo strdup
-        free(vector_get(words, i));
+        word = (char*)vector_get(words, i);
+        if (word != NULL) {
+            free(word);
+            word = NULL;
+        }
+    }
 
     // libera o vetor
     vector_destroy(words);

@@ -1,22 +1,35 @@
 CC = gcc
 CFLAGS = -Wall -Wno-unused-result -g
 
-SRCS = main.c std_data/binary_tree/tree/tree.c std_data/binary_tree/node/node.c std_data/binary_tree/key_val_pair/key_val_pair.c std_data/vector/vector.c utils/utils.c 
-OBJS = $(SRCS:.c=.o)
+COMMON_SRCS = std_data/binary_tree/tree/tree.c std_data/binary_tree/node/node.c std_data/binary_tree/key_val_pair/key_val_pair.c std_data/vector/vector.c utils/utils.c file_reading/dir_read.c
+MAIN_SRCS = main.c $(COMMON_SRCS)
+INDEX_SRCS = index.c $(COMMON_SRCS)
 
-all: main
+MAIN_OBJS = $(MAIN_SRCS:.c=.o)
+INDEX_OBJS = $(INDEX_SRCS:.c=.o)
 
-main: $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+all: main index
+
+main: $(MAIN_OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(MAIN_OBJS)
+
+index: $(INDEX_OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(INDEX_OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) main *.out
+	rm -f $(MAIN_OBJS) $(INDEX_OBJS) main index *.out
 
-run:
+run_main:
 	./main
 
-val:
+run_index:
+	./index
+
+val_main:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./main
+
+val_index:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./index
