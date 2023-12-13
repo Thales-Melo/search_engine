@@ -30,24 +30,29 @@ int main(int argc, char **argv)
 
     printf ("\n\n");
     
-    tree_add(tree, "hillsong", "hillsong");
+    tree_add(tree, "flamengo", "flamengo");
     tree_add(tree, "abacate", "abacate");
     tree_add(tree, "flamengo", "flamengo");
-    // tree_add(tree, "flamengo", "flamengo");
     tree_add(tree, "dado", "dado");
+    tree_add(tree, "hillsong", "hillsong");
     tree_add(tree, "castanheiras", "castanheiras");
     tree_add(tree, "bola", "bola");
 
     tree_print(tree);
 
-    tree_remove(tree, "bola");
-    tree_remove(tree, "castanheiras");
-    tree_remove(tree, "dado");
-    tree_remove(tree, "abacate");
-    tree_remove(tree, "hillsong");
-    // tree_remove(tree, "flamengo");
+    // tree_remove(tree, "bola");
+    // tree_remove(tree, "castanheiras");
+    // tree_remove(tree, "dado");
+    // tree_remove(tree, "abacate");
+    // tree_remove(tree, "hillsong");
+    tree_remove(tree, "flamengo");
 
-    printf ("\n\n");
+    tree_pop_max(tree);
+    tree_pop_max(tree);
+    tree_pop_min(tree);
+    tree_pop_min(tree);
+
+    printf ("\n\nAPÓS A REMOÇÃO: \n\n");
 
     tree_print(tree);
 

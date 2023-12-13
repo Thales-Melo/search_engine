@@ -22,9 +22,13 @@ data_type tree_root (Tree *tree);
 
 void tree_add (Tree *tree, key_type key, data_type value);
 
-data_type tree_max (Tree *tree);
+data_type tree_max_value (Tree *tree);
 
-data_type tree_min (Tree *tree);
+data_type tree_min_value (Tree *tree);
+
+key_type tree_max_key (Tree *tree);
+
+key_type tree_min_key (Tree *tree);
 
 void tree_print (Tree *tree);
 
@@ -37,6 +41,10 @@ data_type tree_search(Tree *tree, key_type key);
 int tree_contains_key(Tree *tree, key_type key);
 
 void tree_remove(Tree *tree, key_type key);
+
+void tree_pop_max (Tree *tree);
+
+void tree_pop_min (Tree *tree);
 
 // lever order
 // void tree_print_level_order(Tree *tree);

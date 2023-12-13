@@ -56,7 +56,7 @@ void tree_add (Tree *tree, key_type key, data_type value) {
 }
 
 
-data_type tree_max (Tree *tree) {
+data_type tree_max_value (Tree *tree) {
     if (tree_empty(tree)) {
         return NULL;
     }
@@ -68,7 +68,7 @@ data_type tree_max (Tree *tree) {
 }
 
 
-data_type tree_min (Tree *tree) {
+data_type tree_min_value (Tree *tree) {
     if (tree_empty(tree)) {
         return NULL;
     }
@@ -77,6 +77,30 @@ data_type tree_min (Tree *tree) {
         node = node_left(node);
     }
     return node_value(node);
+}
+
+key_type tree_max_key (Tree *tree) {
+    if (tree_empty(tree)) {
+        return NULL;
+    }
+    Node *node = tree->root;
+    while (node_right(node) != NULL) {
+        node = node_right(node);
+    }
+    return node_key(node);
+
+}
+
+key_type tree_min_key (Tree *tree) {
+    if (tree_empty(tree)) {
+        return NULL;
+    }
+    Node *node = tree->root;
+    while (node_left(node) != NULL) {
+        node = node_left(node);
+    }
+    return node_key(node);
+
 }
 
 
@@ -100,12 +124,19 @@ int tree_contains_key(Tree *tree, key_type key) {
 
 void tree_remove(Tree *tree, key_type key) {
     tree->root = node_remove(tree->root, key, tree->cmp_fn, tree->val_destroy_fn, tree->key_destroy_fn);
-    printf ("tree_remove\n");
     tree->size--;
 }
 
 int tree_empty (Tree *tree) {
     return tree->root == NULL;
+}
+
+void tree_pop_max (Tree *tree) {
+    tree_remove(tree, tree_max_key(tree));
+}
+
+void tree_pop_min (Tree *tree) {
+    tree_remove(tree, tree_min_key(tree));
 }
 
 // lever order

@@ -48,6 +48,9 @@ data_type node_value (Node *N) {
     return key_val_pair_value(N->key_val);
 }
 
+KeyValPair *node_key_val_pair (Node *N) {
+    return N->key_val;
+}
 
 Node *node_right (Node *N) {
     return N->right;

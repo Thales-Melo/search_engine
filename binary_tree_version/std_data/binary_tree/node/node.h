@@ -16,6 +16,8 @@ key_type node_key (Node *N);
 
 data_type node_value (Node *N);
 
+KeyValPair *node_key_val_pair (Node *N);
+
 Node *node_right (Node *N);
 
 Node *node_left (Node *N);
