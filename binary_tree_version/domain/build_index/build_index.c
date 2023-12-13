@@ -4,7 +4,9 @@
 #include "../file_reading/dir_read.h"
 #include "../../utils/utils.h"
 
-
+int word_already_indexed () {
+    
+}
 
 
 
