@@ -7,12 +7,19 @@
 #include "utils/utils.h"
 #include <stdio.h>
 #include "file_reading/dir_read.h"
+#include <stdlib.h>
+#include "domain/build_index/build_index.h"
 
 #define DATA_DIR argv[1]
 #define OUTPUT argv[2]
 #define FILE_LIST_FILE_NAME "files.txt"
 
+void print_key (void *key) {
+    printf ("%s\n", (char *)key);
+}
+
 int main (int argc, char **argv) {
+    // TESTE DE LEITURA DE ARQUIVO
 
     Vector *file_list = dir_build_file_names(DATA_DIR, FILE_LIST_FILE_NAME);
 
@@ -22,6 +29,9 @@ int main (int argc, char **argv) {
     for (int i=0; i<vector_size(unique_words); i++) {
         printf ("%s\n", (char *)vector_get(unique_words, i));
     }
+
+    // TESTE DE CRIAÇÃO DE INDEX
+    // Tree *index = build_index(file_list, compara_strings, print_key, print_val);
 
     libera_dados(words);
 

@@ -36,7 +36,7 @@ char *read_file_to_string(const char *file_name) {
     FILE *file = fopen(file_name, "r");
 
     if (file == NULL) {
-        perror("Erro ao abrir o arquivo");
+        printf("Erro ao abrir o arquivo %s\n", file_name);
         exit(1);
     }
 
@@ -45,19 +45,17 @@ char *read_file_to_string(const char *file_name) {
     long file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    // Alocar memória para armazenar o conteúdo do arquivo
     char *file_content = (char *)malloc(file_size + 1);
 
     if (file_content == NULL) {
-        perror("Erro ao alocar memória para o conteúdo do arquivo");
+        printf ("Erro ao alocar memória para armazenar o conteúdo do arquivo %s\n", file_name);
         exit(1);
     }
 
     // Ler o conteúdo do arquivo para a string alocada
     fread(file_content, 1, file_size, file);
-    file_content[file_size] = '\0'; // Adicionar terminador nulo ao final da string
+    file_content[file_size] = '\0'; 
 
-    // Fechar o arquivo
     fclose(file);
 
     return file_content;
