@@ -28,5 +28,6 @@ double get_timestamp();
 
 void fprint_string(void *a, FILE *f);
 
+void free_string(void *a);
 
 #endif

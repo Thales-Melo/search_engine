@@ -83,3 +83,12 @@ void fprint_string(void *a, FILE *f)
 {
     fprintf(f, "%s\n", (char *)a);
 }
+
+
+void free_string(void *a)
+{
+    if (a != NULL) {
+        free(a);
+        a = NULL;
+    }
+}

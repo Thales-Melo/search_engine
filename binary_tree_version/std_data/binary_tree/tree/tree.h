@@ -74,4 +74,11 @@ void tree_file_print_pre_order(Tree *tree, FILE *fp);
 
 void tree_file_print_post_order(Tree *tree, FILE *fp);
 
+
+// RECUPERAR VALOR E KEY PELO INDICE ITERANDO IN ORDER
+
+key_type tree_get_key_in_order(Tree *tree, int index);
+
+data_type tree_get_value_in_order(Tree *tree, int index);
+
 #endif

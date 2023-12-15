@@ -201,3 +201,14 @@ void tree_file_print_pre_order(Tree *tree, FILE *fp) {
 void tree_file_print_post_order(Tree *tree, FILE *fp) {
     node_file_print_post_order(tree->root, tree->key_fprint_fn, tree->val_fprint_fn, fp);
 }
+
+
+// RECUPERAR VALOR E CHAVE ITERANDO IN ORDER
+
+key_type tree_get_key_in_order(Tree *tree, int index) {
+    return node_index_key_in_order(tree->root, index);
+}
+
+data_type tree_get_value_in_order(Tree *tree, int index) {
+    return node_index_value_in_order(tree->root, index);
+}

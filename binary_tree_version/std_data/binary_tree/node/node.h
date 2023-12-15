@@ -72,5 +72,9 @@ void node_file_print_pre_order(Node *root, void (*key_fprint_fn)(key_type, FILE*
 
 void node_file_print_post_order(Node *root, void (*key_fprint_fn)(key_type, FILE*), void (*val_fprint_fn)(data_type, FILE*), FILE *fp);
 
+key_type node_index_key_in_order(Node *root, int index);
+
+data_type node_index_value_in_order(Node *root, int index);
+
 
 #endif

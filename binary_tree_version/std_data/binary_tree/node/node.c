@@ -307,3 +307,57 @@ void node_file_print_post_order(Node *root, void (*key_fprint_fn)(key_type, FILE
     node_file_print_post_order(root->right, key_fprint_fn, val_fprint_fn, fp);
     key_val_pair_file_print(root->key_val, key_fprint_fn, val_fprint_fn, fp);
 }
+
+
+int node_count(Node *root) {
+    if (root == NULL) {
+        return 0;
+    }
+    return 1 + node_count(root->left) + node_count(root->right);
+}
+
+
+key_type node_index_key_in_order(Node *root, int index) {
+    if (root == NULL || index < 0) {
+        return NULL;
+    }
+
+    // Número de nós na subárvore à esquerda
+    int leftSubtreeSize = node_count(root->left);
+
+    // Se o índice estiver na subárvore à esquerda, busca nessa subárvore
+    if (index < leftSubtreeSize) {
+        return node_index_key_in_order(root->left, index);
+    }
+    // Se o índice for igual ao tamanho da subárvore à esquerda, encontramos o nó
+    else if (index == leftSubtreeSize) {
+        return node_key(root);
+    }
+    // Se o índice estiver na subárvore à direita, busca nessa subárvore
+    else {
+        return node_index_key_in_order(root->right, index - leftSubtreeSize - 1);
+    }
+}
+
+
+data_type node_index_value_in_order(Node *root, int index) {
+    if (root == NULL || index < 0) {
+        return NULL;  // Assumindo que o tipo de dado value_type é um ponteiro
+    }
+
+    // Número de nós na subárvore à esquerda
+    int leftSubtreeSize = node_count(root->left);
+
+    // Se o índice estiver na subárvore à esquerda, busca nessa subárvore
+    if (index < leftSubtreeSize) {
+        return node_index_value_in_order(root->left, index);
+    }
+    // Se o índice for igual ao tamanho da subárvore à esquerda, encontramos o nó
+    else if (index == leftSubtreeSize) {
+        return node_value(root);
+    }
+    // Se o índice estiver na subárvore à direita, busca nessa subárvore
+    else {
+        return node_index_value_in_order(root->right, index - leftSubtreeSize - 1);
+    }
+}
