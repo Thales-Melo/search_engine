@@ -1,11 +1,11 @@
 #include "engine.h"
 #include <stdio.h>
-#include "../../../utils/utils.h"
 #include <stdlib.h>
-#include "../../../collection/collection.h"
 #include <string.h>
-#include "../../../std_data/vector/vector.h"
 #include "../../../std_data/binary_tree/tree/tree.h"
+#include "../../../std_data/vector/vector.h"
+#include "../../../collection/collection.h"
+#include "../../../utils/utils.h"
 
 
 typedef struct output {
@@ -41,27 +41,29 @@ Tree *load_index(char *index_filename) {
     }
     int size;
     fscanf(F, "%d\n", &size);
-    printf("%d\n", size);
+    // printf("%d\n", size);
 
     for (int i=0; i<size; i++) {
         char aux[100];
         fscanf(F, "%s\n", aux);
         char *key = strdup(aux);
-        printf ("%s\n", key);
+        // printf ("%s\n", key);
         int num_docs;
         fscanf (F,"%d\n", &num_docs);
-        printf ("%d\n", num_docs);
+        // printf ("%d\n", num_docs);
         Collection *col = collection_construct(tree_construct(compara_strings, free,
                      free, print_string, collection_print, 
                                         fprint_col_key, fprint_col_value));
         for (int j=0; j<num_docs; j++) {
             char aux2[100];
             fscanf (F, "%s ", aux2);
+            // char *doc = (char*)malloc(sizeof(char)*(strlen(aux2)+1));
+            // memcpy(doc, aux2, strlen(aux2)+1);
             char *doc = strdup(aux2);
-            printf ("%s ", doc);
+            // printf ("%s ", doc);
             int *freq = (int *)malloc(sizeof(int));
             fscanf (F, "%d\n", freq);
-            printf ("%d\n", *freq);
+            // printf ("%d\n", *freq);
             tree_add(col->documents, doc, freq);
         }
 
@@ -83,43 +85,32 @@ Tree *search_docs(Tree *index, char *query) {
     
     // Para cada palavra da query
     for (int i=0; i<vector_size(words); i++) {
-        printf ("WORD: %s\n", (char *)vector_get(words, i));
         // Obtém a lista de documentos em que a palavra aparecer e as respectivas frequencias
         Collection *col = (Collection *)tree_search(index, vector_get(words, i));
         // Se a palavra não estiver no índice, passa para a próxima
         if (col != NULL) {
             // Para cada documento em que a palavra aparece
-            printf ("tree_size: %d\n", tree_size(col->documents));
             for (int j=0; j<tree_size(col->documents); j++) {
-                
                 // Obtém o nome do documento
                 char *doc = (char *)tree_get_key_in_order(col->documents, j);
-                printf ("doc: %s\n", doc);
                 // Obtém a frequência da palavra no documento
-                void *result = tree_get_value_in_order(col->documents, j);
-                // int freq = *(int *)result;
-                int *freq = (int *)malloc(sizeof(int));
-                *freq = *(int *)result;
-                printf ("freq_A: %d\n", *freq);
+                int *freq = (int *)tree_get_value_in_order(col->documents, j);
+
                 // Se o documento não está na lista de recomendações
                 if (tree_search(recommendations, doc) == NULL) {
                     tree_add(recommendations, doc, freq);
                 }
                 // Se o documento já está na lista de recomendações
                 else {
-                    int *old_freq = (int *)malloc(sizeof(int));
-                    old_freq = (int *)tree_search(recommendations, doc);
+                    int *old_freq = (int *)tree_search(recommendations, doc);
                     int *new_freq = (int *)malloc(sizeof(int));
                     if (old_freq != NULL) {
-                        printf ("old_freq: %d\n", *old_freq);
                         *new_freq = (*freq + (*old_freq));
                     }
                     else {
                         *new_freq = *freq;
                     }
-                    printf ("freq_B: %d\n", *freq);
-                    printf ("new_freq: %d\n", *new_freq);
-                    
+                    free(old_freq);                    
                     tree_set_value(recommendations, doc, new_freq);
                 }
             }
@@ -127,9 +118,10 @@ Tree *search_docs(Tree *index, char *query) {
     }
 
     double end = get_timestamp();
-
     printf("TEMPO DE BUSCA: %lf\n", end-start);
 
+    libera_dados(words);
+    // vector_destroy(words);
     return recommendations;
 }
 
@@ -147,6 +139,22 @@ Output *output_construct(char *doc, int freq) {
     output->freq = freq;
 
     return output;
+}
+
+
+void output_destroy (void *output) {
+    Output *OP = (Output *)output;
+    if (OP == NULL) {
+        return;
+    }
+    if (OP->doc != NULL) {
+        free(OP->doc);
+        OP->doc = NULL;
+    }
+    if (OP != NULL) {
+        free(OP);
+        OP = NULL;
+    }
 }
 
 int compara_output (void *a, void *b) {
@@ -177,22 +185,26 @@ void search_output(Tree *docs, char* output_file) {
     for (int i=0; i<tree_size(docs); i++) {
         char *doc = (char *)tree_get_key_in_order(docs, i);
         int *freq = (int *)tree_get_value_in_order(docs, i);
-        printf ("doc = %s || freq = %d\n", doc, *freq);
+        // printf ("doc = %s || freq = %d\n", doc, *freq);
         // fprintf(F, "%s %d\n", doc, *freq);
         Output *OP = output_construct(doc, *freq);
-        printf ("OP.doc = %s || OP.freq = %d\n", OP->doc, OP->freq);
+        // printf ("OP.doc = %s || OP.freq = %d\n", OP->doc, OP->freq);
         vector_push_back(V, OP);
     }
 
     vector_sort(V, compara_output);
 
-    printf ("vector_size: %d\n", vector_size(V));
+    // printf ("vector_size: %d\n", vector_size(V));
     for (int i=0; i<vector_size(V); i++) {
         Output *OP = (Output *)vector_get(V, i);
         fprintf(F, "%s: %d\n", OP->doc, OP->freq);
-        printf ("%s: %d\n", OP->doc, OP->freq);
+        // printf ("%s: %d\n", OP->doc, OP->freq);
     }
 
+    for (int i=0; i<vector_size(V); i++) {
+        Output *OP = (Output *)vector_get(V, i);
+        output_destroy(OP);
+    }
     vector_destroy(V);
 
     fclose(F);

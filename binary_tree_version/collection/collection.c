@@ -10,8 +10,14 @@ Collection *collection_construct(Tree *documents) {
 
 void collection_destroy(data_type collection) {
     Collection *aux = (Collection *)collection;
-    tree_destroy(aux->documents);
-
+    if (aux == NULL) {
+        return;
+    }
+    if (aux->documents != NULL) {
+        tree_destroy(aux->documents);
+        aux->documents = NULL;
+    }
+    
     if (aux != NULL) {
         free(aux);
         aux = NULL;

@@ -30,7 +30,7 @@ int main (int argc, char **argv) {
     // TESTE DE CONSTRUCAO DO INDICE
     Tree *index = tree_construct(compara_strings, free, collection_destroy,
         print_string, collection_print, fprint_string, collection_file_print);
-   
+    
     index_build(index, file_list);
 
     index_save(index, OUTPUT);

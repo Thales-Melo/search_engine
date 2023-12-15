@@ -20,8 +20,9 @@ int main(int argc, char **argv)
     Tree *docs = search_docs(index, query);
 
     search_output(docs, OUTPUT);
-    // tree_destroy(docs);
-    // tree_destroy(index);
+    
+    tree_destroy(docs);
+    tree_destroy(index);
 
 
     return 0;
