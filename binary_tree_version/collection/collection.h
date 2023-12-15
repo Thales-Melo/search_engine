@@ -3,13 +3,6 @@
 
 #include "../std_data/binary_tree/tree/tree.h"
 
-// Cada nó na árvore "index" é um tipo Colection
-// Cada nó na árvore "Colection->documents" é um tipo Document
-typedef struct colection {
-    Tree *documents;
-} Collection;
-
-Collection *collection_construct(Tree *documents);
 
 void collection_destroy(data_type collection);
 

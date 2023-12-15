@@ -51,9 +51,9 @@ Tree *load_index(char *index_filename) {
         int num_docs;
         fscanf (F,"%d\n", &num_docs);
         // printf ("%d\n", num_docs);
-        Collection *col = collection_construct(tree_construct(compara_strings, free,
+        Tree *col = tree_construct(compara_strings, free,
                      free, print_string, collection_print, 
-                                        fprint_col_key, fprint_col_value));
+                                        fprint_col_key, fprint_col_value);
         for (int j=0; j<num_docs; j++) {
             char aux2[100];
             fscanf (F, "%s ", aux2);
@@ -64,7 +64,7 @@ Tree *load_index(char *index_filename) {
             int *freq = (int *)malloc(sizeof(int));
             fscanf (F, "%d\n", freq);
             // printf ("%d\n", *freq);
-            tree_add(col->documents, doc, freq);
+            tree_add(col, doc, freq);
         }
 
         tree_add(index, key, col);
@@ -86,15 +86,15 @@ Tree *search_docs(Tree *index, char *query) {
     // Para cada palavra da query
     for (int i=0; i<vector_size(words); i++) {
         // Obtém a lista de documentos em que a palavra aparecer e as respectivas frequencias
-        Collection *col = (Collection *)tree_search(index, vector_get(words, i));
+        Tree *col = (Tree *)tree_search(index, vector_get(words, i));
         // Se a palavra não estiver no índice, passa para a próxima
         if (col != NULL) {
             // Para cada documento em que a palavra aparece
-            for (int j=0; j<tree_size(col->documents); j++) {
+            for (int j=0; j<tree_size(col); j++) {
                 // Obtém o nome do documento
-                char *doc = (char *)tree_get_key_in_order(col->documents, j);
+                char *doc = (char *)tree_get_key_in_order(col, j);
                 // Obtém a frequência da palavra no documento
-                int *freq = (int *)tree_get_value_in_order(col->documents, j);
+                int *freq = (int *)tree_get_value_in_order(col, j);
 
                 // Se o documento não está na lista de recomendações
                 if (tree_search(recommendations, doc) == NULL) {
