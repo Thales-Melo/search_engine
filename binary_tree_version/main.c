@@ -7,26 +7,7 @@
 
 int main(int argc, char **argv)
 {
-    // char texto[100];
-
-    // printf("Digite um texto: ");
-    // scanf("%[^\n]", texto);
-
-    // Vector *words = string_split(texto);
-    // Vector *unique = vector_unique(words, compara_strings);
-
-    // printf("Lista de palavras diferentes: \n");
-    // for (int i = 0; i < vector_size(unique); i++)
-    //     printf("%s\n", (char *)vector_get(unique, i));
-
-    // libera_dados(words);
-
-    // // o vector unique faz copia de ponteiros (shallow copy) e, por isso, nao
-    // // precisa liberar os dados do vetor antes de remove-lo. Eles ja serao
-    // // liberados acima.
-    // vector_destroy(unique);
-
-    Tree *tree = tree_construct(compara_strings, NULL, NULL, print_key, print_val);
+    Tree *tree = tree_construct(compara_strings, NULL, NULL, print_key, print_val, fprint_string, fprint_string);
 
     printf ("\n\n");
     

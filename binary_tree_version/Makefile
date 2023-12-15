@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wno-unused-result -g
 
-COMMON_SRCS = std_data/binary_tree/tree/tree.c std_data/binary_tree/node/node.c std_data/binary_tree/key_val_pair/key_val_pair.c std_data/vector/vector.c utils/utils.c file_reading/dir_read.c
+COMMON_SRCS = std_data/binary_tree/tree/tree.c std_data/binary_tree/node/node.c std_data/binary_tree/key_val_pair/key_val_pair.c std_data/vector/vector.c utils/utils.c domain/file_reading/dir_read.c domain/collection/collection.c domain/build_index/build_index.c std_data/queue/queue.c std_data/forward_list/forward_list.c std_data/forward_list/fl_node.c
 MAIN_SRCS = main.c $(COMMON_SRCS)
 INDEX_SRCS = index.c $(COMMON_SRCS)
 

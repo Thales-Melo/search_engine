@@ -79,3 +79,10 @@ void key_val_pair_print(KeyValPair *key_val, void (*print_key)(key_type), void (
     printf ("\n");
 }
 
+
+void key_val_pair_file_print(KeyValPair *key_val, void (*f_print_key)(key_type, FILE*), void (*f_print_value)(data_type, FILE*), FILE *file)
+{
+    f_print_key(key_val->key, file);
+    f_print_value(key_val->value, file);
+    // fprintf (file, "\n");
+}

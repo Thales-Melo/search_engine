@@ -2,9 +2,12 @@
 #define _BUILD_INDEX_H_
 
 #include "../../std_data/binary_tree/tree/tree.h"
+#include "../../std_data/vector/vector.h"
 
 
-Tree *build_index(Vector *file_list, int (*compara_strings)(void *, void *), void (*print_key)(void *), void (*print_val)(void *));
+void index_build (Tree *index, Vector *files);
+
+void index_save(Tree *index, char *output);
 
 
 #endif

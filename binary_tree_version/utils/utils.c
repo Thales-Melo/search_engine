@@ -70,3 +70,9 @@ double get_timestamp()
     timespec_get(&now, TIME_UTC);
     return now.tv_sec + (((double)now.tv_nsec) / 1e9);
 }
+
+
+void fprint_string(void *a, FILE *f)
+{
+    fprintf(f, "%s\n", (char *)a);
+}

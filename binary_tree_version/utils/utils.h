@@ -1,6 +1,7 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+#include <stdio.h>
 
 #include "../std_data/vector/vector.h"
 
@@ -20,5 +21,12 @@ void print_key(void *a);
 void print_val(void *a);
 
 double get_timestamp();
+
+// void fprint_key(void *a, FILE *f);
+
+// void fprint_val(void *a, FILE *f);
+
+void fprint_string(void *a, FILE *f);
+
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef _KEY_VAL_PAIR_H_
 #define _KEY_VAL_PAIR_H_
 
+#include <stdio.h>
 
 typedef struct KeyValPair KeyValPair;
 
@@ -25,6 +26,8 @@ void key_val_pair_set_key(KeyValPair *key_val, key_type key);
 int key_val_pair_cmp(data_type a, data_type b, int (*cmp_fn)(data_type, data_type));
 
 void key_val_pair_print(KeyValPair *key_val, void (*print_key)(key_type), void (*print_value)(data_type));
+
+void key_val_pair_file_print(KeyValPair *key_val, void (*f_print_key)(key_type, FILE*), void (*f_print_value)(data_type, FILE*), FILE *file);
 
 
 #endif

@@ -9,10 +9,17 @@ typedef struct colection {
     Tree *documents;
 } Collection;
 
-Collection *colection_construct(Tree *documents, int freq);
+Collection *collection_construct(Tree *documents);
 
-void collection_destroy(Collection *collection);
+void collection_destroy(data_type collection);
 
-void collection_print(Collection *collection);
+void collection_print(data_type collection);
+
+void collection_file_print(data_type collection, FILE *file);
+
+void fprint_col_value(data_type value, FILE *file);
+
+void fprint_col_key(key_type key, FILE *file);
+
 
 #endif
