@@ -26,6 +26,7 @@ Vector *dir_build_file_names(char *dir, char *file_list_file_name) {
         }
         char file_path[120];
         sprintf(file_path, "%s/%s", dir, line);
+
         vector_push_back(file_names, strdup(file_path));
     }
 
@@ -69,7 +70,10 @@ Vector *read_file_splited(char *file_name) {
 
     Vector *split = string_split(file_content);
 
-    free(file_content);
+    if (file_content != NULL) {
+        free(file_content);
+        file_content = NULL;
+    }
 
     return split;
 }

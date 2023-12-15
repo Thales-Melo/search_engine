@@ -21,7 +21,10 @@ KeyValPair *key_val_pair_construct(void *key, void *value)
 
 
 void key_val_pair_destroy(KeyValPair *key_val, void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type))
-{
+{   
+    if (key_val == NULL) {
+        return;
+    }
     if (val_destroy_fn != NULL) {
         if (key_val->value != NULL) {
             val_destroy_fn(key_val->value);

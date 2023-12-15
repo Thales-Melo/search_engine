@@ -127,7 +127,7 @@ void index_build (Tree *index, Vector *files) {
                 printf ("WORD: %s\n", word);
                 // Se a palavra não está no índice, adicionamos ela
                 Collection *col = collection_construct(tree_construct(compara_strings, 
-                        free, collection_destroy, print_string, collection_print, fprint_col_key, fprint_col_value));
+                        free, free, print_string, collection_print, fprint_col_key, fprint_col_value));
                 tree_add(index, word, col);
                 // word_index_add(index, word);
                 // Em seguida, associamos a palavra o documento com frequência inicial 1
@@ -143,7 +143,8 @@ void index_build (Tree *index, Vector *files) {
 
             }
         }
-
+        // libera_dados(words);
+        vector_destroy(words);
     }
 
     double end = get_timestamp();

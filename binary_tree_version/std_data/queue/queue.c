@@ -32,4 +32,5 @@ int queue_isEmpty(Queue *Q) {
 void queue_destroy(Queue *Q, void (*free_func)(data_type)) {
     forward_list_destroy(Q->FL, free_func);
     free(Q);
+    Q = NULL;
 }

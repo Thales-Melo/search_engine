@@ -17,14 +17,19 @@ Vector *string_split(char *str)
         vector_push_back(words, strdup(word));
         word = strtok(NULL, " ");
     }
-
+    // if (word != NULL) {
+        // free(word);
+        // word = NULL;
+    // }
     return words;
 }
 
 
 void libera_dados(Vector *words)
 {
-    if (words == NULL) return;
+    if (words == NULL) {
+        return;
+    }
     char *word = NULL;
     for (int i = 0; i < vector_size(words); i++) {
         // libera os espacos alocados pelo strdup

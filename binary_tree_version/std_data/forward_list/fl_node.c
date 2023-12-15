@@ -13,8 +13,10 @@ FL_Node *fl_node_construct (data_type value, FL_Node *next) {
 data_type fl_node_destroy (FL_Node *n) {
     data_type value = n->value;
 
-    free(n);
-    n = NULL;
+    if (n != NULL) {
+        free(n);
+        n = NULL;
+    }
 
     return value;
 }

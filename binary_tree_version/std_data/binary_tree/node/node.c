@@ -32,7 +32,9 @@ void node_destroy_recursive(Node *N, void (*val_destroy_fn)(data_type), void (*k
     node_destroy_recursive(N->right, val_destroy_fn, key_destroy_fn);
 
     // agora sim libera a memória do nó
-    key_val_pair_destroy(N->key_val, val_destroy_fn, key_destroy_fn);
+    if (N->key_val != NULL) {
+        key_val_pair_destroy(N->key_val, val_destroy_fn, key_destroy_fn);
+    }
     if (N != NULL) {
         free(N);
         N = NULL;
@@ -154,11 +156,13 @@ Node *node_remove_recursive(Node *node, key_type *key, int (*cmp_fn)(data_type, 
         if (node->left == NULL && node->right == NULL) {
             key_val_pair_destroy(node->key_val, val_destroy_fn, key_destroy_fn);
             free(node);
+            node = NULL;
             return NULL;
         } else if (node->left == NULL || node->right == NULL) {
             Node *temp = (node->left == NULL) ? node->right : node->left;
             key_val_pair_destroy(node->key_val, val_destroy_fn, key_destroy_fn);
             free(node);
+            node = NULL;
             return temp;
         } else {
             Node *temp = node->right;
@@ -203,6 +207,7 @@ void node_print_level_order(Node *root, void (*key_print_fn)(key_type), void (*v
     }
 
     free(queue);
+    queue = NULL;
 }
 
 
@@ -255,15 +260,19 @@ void node_file_print_level_order(Node *root, void (*key_fprint_fn)(key_type, FIL
         Node *currentNode = queue_dequeue(queue);
         // printf("%d ", currentNode->data);
         key_val_pair_file_print(currentNode->key_val, key_fprint_fn, val_fprint_fn, fp);
+        // fl_node_destroy(currentNode);
 
-        if (currentNode->left != NULL)
+        if (currentNode->left != NULL) {
             queue_enqueue(queue, currentNode->left);
+        }
 
-        if (currentNode->right != NULL)
+        if (currentNode->right != NULL) {
             queue_enqueue(queue, currentNode->right);
+        }
+
     }
 
-    free(queue);
+    queue_destroy(queue, free);
 }
 
 

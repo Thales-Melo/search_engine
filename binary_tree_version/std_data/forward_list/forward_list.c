@@ -18,12 +18,17 @@ void forward_list_destroy (ForwardList *FL, void (*free_func)(data_type)) {
         FL->head = aux->next;
         // fl_node_destroy(aux, free_func);
         data_type value = aux->value;
-        free_func(value);
+        if (free_func != NULL) {
+            if (value != NULL) {
+                free_func(value);
+            }
+        }
         fl_node_destroy(aux);
         aux = FL->head;
     }
 
     free (FL);
+    FL = NULL;
 }
 
 void forward_list_push_front(ForwardList *FL, data_type value) {

@@ -12,6 +12,7 @@ void collection_destroy(data_type collection) {
     Collection *aux = (Collection *)collection;
     tree_destroy(aux->documents);
     free(aux);
+    aux = NULL;
 }
 
 void collection_print(data_type collection) {

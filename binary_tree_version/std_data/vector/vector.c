@@ -235,9 +235,16 @@ Vector *vector_copy(Vector *v)
 }
 
 void vector_destroy(Vector *v)
-{
-    free(v->data);
+{   
+    if (v == NULL) {
+        return;
+    }
+    if (v->data != NULL) {
+        free(v->data);
+        v->data = NULL;
+    }
     free(v);
+    v = NULL;
 }
 
 void vector_clear(Vector *v) {
