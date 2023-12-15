@@ -6,10 +6,10 @@
 #include "std_data/vector/vector.h"
 #include "utils/utils.h"
 #include <stdio.h>
-#include "domain/file_reading/dir_read.h"
+#include "index-program/domain/file_reading/dir_read.h"
 #include <stdlib.h>
-#include "domain/build_index/build_index.h"
-#include "domain/collection/collection.h"
+#include "index-program/domain/build_index/build_index.h"
+#include "collection/collection.h"
 
 #define DATA_DIR argv[1]
 #define OUTPUT argv[2]
@@ -35,7 +35,6 @@ int main (int argc, char **argv) {
 
     index_save(index, OUTPUT);
 
-    tree_destroy(index);
 
     // for (int i=0; i<vector_size(unique_words); i++) {
     //     printf ("%s\n", (char *)vector_get(unique_words, i));
@@ -53,6 +52,8 @@ int main (int argc, char **argv) {
     // vector_destroy(file_list);
     libera_dados(file_list);
     // free(file_list);
+    // free(file_list);
+    tree_destroy(index);
     // vector_destroy(file_list);
 
     return 0;

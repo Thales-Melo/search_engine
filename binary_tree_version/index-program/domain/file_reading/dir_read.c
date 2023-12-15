@@ -1,5 +1,5 @@
 #include "dir_read.h"
-#include "../../utils/utils.h"
+#include "../../../utils/utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,6 +26,7 @@ Vector *dir_build_file_names(char *dir, char *file_list_file_name) {
         }
         char file_path[120];
         sprintf(file_path, "%s/%s", dir, line);
+        // printf ("FILE PATH: %s\n", file_path);
 
         vector_push_back(file_names, strdup(file_path));
     }

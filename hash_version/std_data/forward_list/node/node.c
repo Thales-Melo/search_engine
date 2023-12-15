@@ -13,8 +13,10 @@ Node *node_construct(data_type value, Node *next)
 void node_destroy(Node *n, void (*free_func)(data_type))
 {
     if (n->value != NULL) {
-        free_func(n->value);
-        n->value = NULL;
+        if (free_func != NULL) {
+            free_func(n->value);
+            n->value = NULL;
+        }
     }
     if (n != NULL) {
         free(n);

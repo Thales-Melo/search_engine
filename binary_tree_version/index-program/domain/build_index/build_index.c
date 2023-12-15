@@ -1,9 +1,9 @@
 #include "build_index.h"
 #include <stdlib.h>
-#include "../../std_data/vector/vector.h"
+#include "../../../std_data/vector/vector.h"
 #include "../file_reading/dir_read.h"
-#include "../../utils/utils.h"
-#include "../collection/collection.h"
+#include "../../../utils/utils.h"
+#include "../../../collection/collection.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -48,7 +48,7 @@ void add_document (Tree *index, char *word, char *doc) {
     // Collection* col = (Collection*)tree_search(aux, doc);
     // int *freq = (int*)malloc(sizeof(int));
     // *freq = 1;
-    char *document = strdup(doc);
+    
 
     // adicionar o documento com frequencia inicial 1
     // O valor da árvore é a frequencia
@@ -60,14 +60,14 @@ void add_document (Tree *index, char *word, char *doc) {
     // Atribua o valor 1 para o ponteiro
     *freq = 1;
     // Adicione o documento com frequencia 1
-    tree_add(aux->documents, document, freq);
+    tree_add(aux->documents, doc, freq);
 
     }
 
 // Se a palavra nao esta no indice, adicionamos ela
 void word_index_add (Tree *index, char *word) {
     tree_add(index, word, collection_construct(tree_construct(compara_strings, 
-                free, collection_destroy, print_string, collection_print, fprint_col_key, fprint_col_value)));
+                free, free, print_string, collection_print, fprint_col_key, fprint_col_value)));
 }
 
 
@@ -94,9 +94,9 @@ void index_build (Tree *index, Vector *files) {
         char *document = vector_get(files, i);
         Vector *words = read_file_splited(document);
         printf ("\n_________________________\n");
-        for (int i=0; i<vector_size(words); i++) {
-            printf ("%s\n", (char*)vector_get(words, i));
-        }
+        // for (int i=0; i<vector_size(words); i++) {
+        //     printf ("%s\n", (char*)vector_get(words, i));
+        // }
         printf ("\n_________________________\n");
         // Para cada palavra
         for (int k=0; k<vector_size(words); k++) {
@@ -127,7 +127,7 @@ void index_build (Tree *index, Vector *files) {
                 printf ("WORD: %s\n", word);
                 // Se a palavra não está no índice, adicionamos ela
                 Collection *col = collection_construct(tree_construct(compara_strings, 
-                        free, free, print_string, collection_print, fprint_col_key, fprint_col_value));
+                        NULL, free, print_string, collection_print, fprint_col_key, fprint_col_value));
                 tree_add(index, word, col);
                 // word_index_add(index, word);
                 // Em seguida, associamos a palavra o documento com frequência inicial 1
@@ -140,17 +140,21 @@ void index_build (Tree *index, Vector *files) {
                 printf ("NOME DO DOCUMENTO: %s\n", document);
                 // printf ("_________________________\n");
                 printf ("FREQUENCIA: %d\n", *((int*)tree_search(col->documents, document)));
+                
 
             }
         }
         // libera_dados(words);
+        // free(document);
+        // vector_destroy(words);
         vector_destroy(words);
+        
     }
 
     double end = get_timestamp();
 
     double dt = (end - start);
-    printf ("TEMPO DE CONSTRUÇÃO DO ÍNDICE = %lf", dt);
+    printf ("TEMPO DE CONSTRUÇÃO DO ÍNDICE = %lf\n", dt);
 
 }
 

@@ -28,8 +28,14 @@ Pair *_hash_pair_construct(data_type key, data_type val) {
 }
 
 void _hash_pair_destroy(Pair *pair) {
-    free(pair->val);
-    free(pair);
+    if (pair->val != NULL) {
+        free(pair->val);
+        pair->val = NULL;
+    }
+    if (pair != NULL) {
+        free(pair);
+        pair = NULL;
+    }
 }
 
 Hash *hash_table_construct(int table_size, HashFunction hash_fn, CmpFunction cmp_fn) {

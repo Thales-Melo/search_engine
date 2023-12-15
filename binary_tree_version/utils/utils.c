@@ -17,9 +17,10 @@ Vector *string_split(char *str)
         vector_push_back(words, strdup(word));
         word = strtok(NULL, " ");
     }
+
     // if (word != NULL) {
-        // free(word);
-        // word = NULL;
+    //     free(word);
+    //     word = NULL;
     // }
     return words;
 }
@@ -42,6 +43,7 @@ void libera_dados(Vector *words)
 
     // libera o vetor
     vector_destroy(words);
+    words = NULL;
 }
 
 
