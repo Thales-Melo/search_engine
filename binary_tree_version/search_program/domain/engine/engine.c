@@ -196,6 +196,9 @@ void search_output(Tree *docs, char* output_file) {
 
     // printf ("vector_size: %d\n", vector_size(V));
     for (int i=0; i<vector_size(V); i++) {
+        if (i == 10) {
+            break;
+        }
         Output *OP = (Output *)vector_get(V, i);
         fprintf(F, "%s: %d\n", OP->doc, OP->freq);
         // printf ("%s: %d\n", OP->doc, OP->freq);

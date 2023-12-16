@@ -14,10 +14,10 @@ int word_already_indexed (Tree *index, char *word) {
 
 int word_in_document(Tree *index, char *word, char *doc) {
     // Se word em index
-    printf ("WORD: %s\n", word);
-    printf ("DOC: %s\n", doc);
+    // printf ("WORD: %s\n", word);
+    // printf ("DOC: %s\n", doc);
     if (tree_contains_key(index, word)) {
-        printf ("WORD IN DOCUMENT\n");
+        // printf ("WORD IN DOCUMENT\n");
         // Se doc em colecao de documentos
         Tree* collection = (Tree*)(tree_search(index, word));
         if (tree_contains_key(collection, doc)) {
@@ -25,7 +25,7 @@ int word_in_document(Tree *index, char *word, char *doc) {
         }
     }
 
-    printf ("WORD NOT IN DOCUMENT\n");
+    // printf ("WORD NOT IN DOCUMENT\n");
     return 0;
 }
 
@@ -72,7 +72,6 @@ void connect_word_to_document (Tree *index, char *word, char *doc) {
 
 void index_build (Tree *index, Vector *files) {
     double start = get_timestamp();
-
     // Para cada arquivo na lista de arquivos
     for (int i=0; i<vector_size(files); i++) {
         // Le o conteudo e separa as palavras
@@ -88,16 +87,16 @@ void index_build (Tree *index, Vector *files) {
                 if (word_in_document(index, word, document)) {
                     // Incrementamos a frequência
                     Tree* collection = (Tree*)(tree_search(index, word));
+                    free(word);
                     grow_word_frequency(collection, document);
-           }
+                }
                 // Caso contrário
                 else {
                     // Adicionamos o documento com frequência inicial 1
                     add_document(index, word, document);
-                    printf("FREQUENCIA: %d\n", *((int*)tree_search(((Tree*)tree_search(index, word)), document)));
+                    free(word);
                 }
             }
-
             else {
                 // Se a palavra não está no índice, adicionamos ela
                 tree_add(index, word, tree_construct(compara_strings, 
@@ -109,8 +108,7 @@ void index_build (Tree *index, Vector *files) {
             }
         }
         libera_dados(words);
-    }
-
+    }  
     double end = get_timestamp();
     printf ("TEMPO DE CONSTRUÇÃO DO ÍNDICE = %lf\n", end - start);
 }

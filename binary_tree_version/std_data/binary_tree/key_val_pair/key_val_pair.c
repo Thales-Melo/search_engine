@@ -33,7 +33,6 @@ void key_val_pair_destroy(KeyValPair *key_val, void (*val_destroy_fn)(data_type)
     }
     if (key_destroy_fn != NULL) {
         if (key_val->key != NULL) {
-            printf ("key_val_pair_destroy: key_destroy_fn != NULL\n");
             // printf ("%s\n", (char*)key_val->key);
             key_destroy_fn(key_val->key);
             key_val->key = NULL;  

@@ -37,7 +37,6 @@ Tree *tree_construct (CmpFn cmp_fn, KeyDestroyFn key_destroy_fn, ValDestroyFn va
 
 void tree_destroy (Tree *tree) {
     // libera a memória recursivamente a partir da raiz
-    printf ("TREE_DESTROY\n");
     node_destroy_recursive(tree->root, tree->val_destroy_fn, tree->key_destroy_fn);
     if (tree != NULL) {
         free(tree);
