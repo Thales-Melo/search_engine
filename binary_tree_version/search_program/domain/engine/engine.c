@@ -81,7 +81,7 @@ Tree *search_docs(Tree *index, char *query) {
     // Palavras da query
     Vector *words = read_query(query);
     // Documentos recomendados e respectivas relevâncias
-    Tree *recommendations = tree_construct(compara_strings, free, free, print_string, print_string, fprint_string, fprint_string);
+    Tree *recommendations = tree_construct(compara_strings, NULL, NULL, print_string, print_string, fprint_string, fprint_string);
     
     // Para cada palavra da query
     for (int i=0; i<vector_size(words); i++) {
@@ -109,9 +109,9 @@ Tree *search_docs(Tree *index, char *query) {
                     }
                     else {
                         *new_freq = *freq;
-                    }
-                    free(old_freq);                    
+                    }                  
                     tree_set_value(recommendations, doc, new_freq);
+
                 }
             }
         }
@@ -119,8 +119,9 @@ Tree *search_docs(Tree *index, char *query) {
 
     double end = get_timestamp();
     printf("TEMPO DE BUSCA: %lf\n", end-start);
-
     libera_dados(words);
+    // free(words);
+    // vector_destroy(words);
     // vector_destroy(words);
     return recommendations;
 }

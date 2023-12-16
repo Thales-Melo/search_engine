@@ -239,10 +239,10 @@ void vector_destroy(Vector *v)
     if (v == NULL) {
         return;
     }
-    if (v->data != NULL) {
-        free(v->data);
-        v->data = NULL;
-    }
+
+    free(v->data);
+    v->data = NULL;
+    
     free(v);
     v = NULL;
 }

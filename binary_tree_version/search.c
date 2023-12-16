@@ -6,6 +6,7 @@
 #include "utils/utils.h"
 #include "search_program/domain/engine/engine.h"
 
+
 #define INDEX_FILE argv[1]
 #define OUTPUT argv[2]
 
@@ -22,6 +23,8 @@ int main(int argc, char **argv)
     search_output(docs, OUTPUT);
     
     tree_destroy(docs);
+
+
     tree_destroy(index);
 
 

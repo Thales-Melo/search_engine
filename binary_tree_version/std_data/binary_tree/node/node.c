@@ -34,6 +34,7 @@ void node_destroy_recursive(Node *N, void (*val_destroy_fn)(data_type), void (*k
     // agora sim libera a memória do nó
     if (N->key_val != NULL) {
         key_val_pair_destroy(N->key_val, val_destroy_fn, key_destroy_fn);
+        N->key_val = NULL;
     }
     if (N != NULL) {
         free(N);
