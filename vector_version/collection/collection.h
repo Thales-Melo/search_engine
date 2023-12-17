@@ -24,6 +24,8 @@ void collection_add_document(Collection *collection, data_type document);
 
 int collection_contains(Collection *collection, data_type document);
 
+data_type collection_get(Collection *collection, data_type word);
+
 // int collection_cmp(data_type collection1, data_type collection2);
 
 #endif

@@ -9,5 +9,7 @@ void index_build (Vector *index, Vector *files);
 
 void index_save(Vector *index, char *output);
 
+void index_destroy (Vector *index);
+
 
 #endif

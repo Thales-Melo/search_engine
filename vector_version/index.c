@@ -2,7 +2,7 @@
 // O INTUITO DO INDEX É FACILITAR A BUSCA POR PALAVRAS EM UM ARQUIVO DE TEXTO
 // OU SEJA, COM O INDEX CRIADO, RODAREMOS UM "BUSCADOR" PARA BUSCAR OS ARQUIVOS COM MAIOR FREQUÊNCIA DAS PALAVRAS BUSCADAS
 
-#include "std_data/binary_tree/tree/tree.h"
+// #include "std_data/binary_tree/tree/tree.h"
 #include "std_data/vector/vector.h"
 #include "utils/utils.h"
 #include <stdio.h>
@@ -20,8 +20,7 @@ int main (int argc, char **argv) {
 
     Vector *file_list = dir_build_file_names(DATA_DIR, FILE_LIST_FILE_NAME);
 
-    Tree *index = tree_construct(compara_strings, free, collection_destroy,
-        print_string, collection_print, fprint_string, collection_file_print);
+    Vector *index = vector_construct();
     
     index_build(index, file_list);
     
@@ -29,8 +28,10 @@ int main (int argc, char **argv) {
 
     libera_dados(file_list);
 
-    tree_destroy(index);
+    index_destroy(index);
 
+    // tree_destroy(index);
+    // vector_destroy(index);
 
     return 0;
 }

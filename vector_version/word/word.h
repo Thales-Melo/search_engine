@@ -2,6 +2,7 @@
 #define _WORD_H_
 
 #include "../std_data/vector/vector.h"
+#include "../collection/collection.h"
 
 typedef struct Word {
     char *word; // key

@@ -1,6 +1,7 @@
 #include "document.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 Document *document_construct(char *document, int frequency) {
     Document *doc = (Document *)malloc(sizeof(Document));
@@ -14,10 +15,10 @@ void document_destroy(Document *document) {
         printf ("document_destroy: document == NULL\n");
         return;
     }
-    if (document->document != NULL) {
-        free(document->document);
-        document->document = NULL;
-    }
+    // if (document->document != NULL) {
+    //     free(document->document);
+    //     document->document = NULL;
+    // }
 
     free(document);
     document = NULL;

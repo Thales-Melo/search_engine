@@ -14,12 +14,16 @@ int word_already_indexed (Vector *index, Word *word) {
     return vector_find(index, word, word_cmp);
 }
 
-int word_in_document(Vector *col, Word *doc) {
-    return vector_find(col, doc, word_cmp);
+int word_in_document(Vector *words, char *doc) {
+    // int *freq = (int*)malloc(sizeof(int));
+    // *freq = 1;
+    Document *aux = document_construct(doc, 1);
+    return vector_find(words, aux, document_cmp);
 }
 
 void grow_word_frequency (Collection *col, char *doc) {
-    // Document *doc = vector_get(col, vector_find(col, doc, document_cmp));
+    // int *freq = (int*)malloc(sizeof(int));
+    // *freq = 1;
     Document *aux = document_construct(doc, 1);
     Document *document = vector_get(col->documents, vector_find(col->documents, aux, document_cmp));
     document_grow_frequency(document);
@@ -28,10 +32,10 @@ void grow_word_frequency (Collection *col, char *doc) {
 
 // Adicionar o documento com frequencia inicial 1
 void add_document (Collection *collection, char *doc) {
-    int *freq = (int*)malloc(sizeof(int));
-    *freq = 1;
+    // int *freq = (int*)malloc(sizeof(int));
+    // *freq = 1;
 
-    Document *document = document_construct(doc, *freq);
+    Document *document = document_construct(doc, 1);
     collection_add_document(collection, document);
 }
 
@@ -48,29 +52,34 @@ void connect_word_to_document (Vector *index, char *word, char *doc) {
 
     Word *W = vector_get(index, vector_find(index, aux, word_cmp));
 
-    int *freq = (int*)malloc(sizeof(int));
-    *freq = 1;
-
-    Document *document = document_construct(doc, *freq);
-    collection_add_document(W->collection, document);
-    // vector_push_back(W->collection, document);
+    add_document(W->collection, doc);
 }
 
 
 void connect_word_to_index(Vector *index, char *word, char *document) {
     Word *aux = word_constructor(word);
-    Word *W = (Word *)(vector_get(index, vector_find(index, aux, word_cmp)));
+    int idx = vector_find(index, aux, word_cmp);
+    
+    if (idx >= 0) {
+        // if (word_in_document(aux->collection->documents, document)) {
+            // grow_word_frequency(aux->collection, document);
+        // } 
+        // else {
+            // Document *doc = document_construct(document, 1);
+            Word *W = vector_get(index, idx);
 
-    if (aux->collection != NULL) {
-        if (word_in_document(aux->collection->documents, document)) {
-            grow_word_frequency(aux->collection, document);
-        } else {
-            add_document(aux->collection, document);
-        }
-        free(word);
+            add_document(W->collection, document);
+
+            word_destroy(aux);
+        // }
+        // CHECAR ESSE FREE AQUI DEPOIS
+        // free(word);
     } else {
         vector_push_back(index, aux);
-        connect_word_to_document(index, word, document);
+        // printf ("word = %s\n", word);
+        // printf ("document = %s\n", document);
+        // connect_word_to_document(index, word, document);
+        add_document(aux->collection, document);
     }
     
 }
@@ -109,14 +118,24 @@ void index_save(Vector *index, char *output) {
     FILE *file = fopen(output, "w");
 
     fprintf (file, "%d\n", vector_size(index));
-
+    // fclose(file);
     for (int i=0; i<vector_size(index); i++) {
         Word *word = vector_get(index, i);
         fprintf (file, "%s\n", word->word);
         collection_file_print(word->collection, file);
+       
     }
 
     // tree_file_print_level_order(index, file);
 
     fclose(file);
+}
+
+
+void index_destroy (Vector *index) {
+    for (int i=0; i<vector_size(index); i++) {
+        Word *word = vector_get(index, i);
+        word_destroy(word);
+    }
+    vector_destroy(index);
 }

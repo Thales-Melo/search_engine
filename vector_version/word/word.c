@@ -1,11 +1,14 @@
 #include "word.h"
 #include "../collection/collection.h"
 #include "../document/document.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 Word *word_constructor(char *word) {
     Word *W = (Word *)malloc(sizeof(Word));
     W->word = word;
-    W->collection = collection_construct(document_destroy);
+    W->collection = collection_construct((data_type)document_destroy);
     return W;
 }
 
@@ -45,7 +48,7 @@ void word_add(Word *W, char *word) {
         document_grow_frequency(doc);
     } else {
         Document *doc = document_construct(word, 1);
-        collection_add(W->collection, doc);
+        collection_add_document(W->collection, doc);
     }
 }
 
