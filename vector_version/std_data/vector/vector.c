@@ -260,6 +260,10 @@ Vector *vector_unique(Vector *v, int (*cmp)(data_type, data_type))
     for (int i = 0; i < vector_size(v); i++)
         if (vector_find(output, vector_get(v, i), cmp) == -1)
             vector_push_back(output, v->data[i]);
-
+        
+        else {
+            free(v->data[i]);
+            v->data[i] = NULL;
+        }
     return output;
 }
