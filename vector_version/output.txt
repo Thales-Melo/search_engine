@@ -1,0 +1,17 @@
+4
+agua
+2
+../datasets/small/files/a1.txt 3
+../datasets/small/files/a2.txt 1
+azul
+3
+../datasets/small/files/a1.txt 1
+../datasets/small/files/a2.txt 1
+../datasets/small/files/a3.txt 2
+bola
+1
+../datasets/small/files/a2.txt 1
+ceu
+2
+../datasets/small/files/a2.txt 1
+../datasets/small/files/a3.txt 3

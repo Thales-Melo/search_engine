@@ -55,26 +55,9 @@ Vector *load_index(char *index_filename) {
             int freq;
             fscanf (F, "%d\n", &freq);
             
-            // int idx_word = vector_find(index, word, word_cmp);
-
             Document *document = document_construct(strdup(aux2), freq);
-            // if (idx_word < 0) {
-            //     vector_push_back(word->collection->documents, document);
-            //     vector_push_back(index, word);
-            // }
-                
-            // else {
-            //     Word *aux = vector_get(index, idx_word);
-            //     word_destroy(word);
-            //     Document *document_aux = vector_get(aux->collection->documents, vector_find(aux->collection->documents, document, document_cmp));
-            //     document_aux->frequency += freq;
-            //     document_destroy(document);
-            // }
-        
            
             vector_push_back(word->collection->documents, document);
-          
-
         }
 
         vector_push_back(index, word);
@@ -84,6 +67,8 @@ Vector *load_index(char *index_filename) {
 
     return index;
 }
+
+
 
 Vector *search_docs(Vector *index, char *query) {
     // Palavras da query
@@ -110,10 +95,12 @@ Vector *search_docs(Vector *index, char *query) {
                 Document *document = document_construct(doc, freq);
                 // Se o documento não está na lista de recomendações
                 if (vector_find(recommendations, document, document_cmp) < 0) {
+                    // Adiciona o documento à lista
                     vector_push_back(recommendations, document);
                 }
                 // Se o documento já está na lista de recomendações
                 else {
+                    // Aumenta a frequência do documento
                     Document *document_aux = vector_get(recommendations, vector_find(recommendations, document, document_cmp));
                     document_aux->frequency += freq;
                     document_destroy(document);
@@ -129,6 +116,7 @@ Vector *search_docs(Vector *index, char *query) {
 
     return recommendations;
 }
+
 
 ////////////////////////////////////////
 // OUTPUT FORMAT

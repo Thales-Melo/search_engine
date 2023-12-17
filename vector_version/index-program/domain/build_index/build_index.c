@@ -11,13 +11,6 @@
 
 
 
-int word_in_document(Vector *words, char *doc) {
-    Document *aux = document_construct(doc, 1);
-    return vector_find(words, aux, document_cmp);
-}
-
-
-
 void grow_word_frequency (Collection *col, char *doc) {
     Document *aux = document_construct(doc, 1);
     Document *document = vector_get(col->documents, vector_find(col->documents, aux, document_cmp));
@@ -30,17 +23,6 @@ void grow_word_frequency (Collection *col, char *doc) {
 void add_document (Collection *collection, char *doc) {
     Document *document = document_construct(doc, 1);
     collection_add_document(collection, document);
-}
-
-
-
-// Em seguida, associamos a palavra o documento com frequência inicial 1
-void connect_word_to_document (Vector *index, char *word, char *doc) {
-    Word *aux = word_constructor(word);
-
-    Word *W = vector_get(index, vector_find(index, aux, word_cmp));
-
-    add_document(W->collection, doc);
 }
 
 
