@@ -15,14 +15,10 @@ typedef struct output {
 
 
 Vector *read_query (char *query) {
-    Vector *words = vector_construct();
-
-    words = string_split(query);
+    Vector *words = string_split(query);
 
     Vector *unique = vector_unique(words, compara_strings);
 
-    // vector_destroy(words);
-    // libera_dados(words);
     vector_destroy(words);
 
     return unique;
@@ -124,7 +120,7 @@ Tree *search_docs(Tree *index, char *query) {
     double end = get_timestamp();
     printf("TEMPO DE BUSCA: %lf\n", end-start);
     libera_dados(words);
-
+    
     return recommendations;
 }
 

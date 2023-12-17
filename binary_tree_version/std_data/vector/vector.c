@@ -244,7 +244,7 @@ void vector_destroy(Vector *v)
         free(v->data);
         v->data = NULL;
     }
-    
+
     free(v);
     v = NULL;
 }

@@ -18,10 +18,6 @@ Vector *string_split(char *str)
         word = strtok(NULL, " ");
     }
 
-    // if (word != NULL) {
-    //     free(word);
-    //     word = NULL;
-    // }
     return words;
 }
 

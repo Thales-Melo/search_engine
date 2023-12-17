@@ -150,35 +150,24 @@ void tree_pop_min (Tree *tree) {
     tree_remove(tree, tree_min_key(tree));
 }
 
-// lever order
+
 void tree_print_level_order(Tree *tree) {
-   printf("Tree: ");
    node_print_level_order(tree->root, tree->key_print_fn, tree->val_print_fn);
-   printf("\n");
 }
 
 
-// pre order
 void tree_print_pre_order(Tree *tree) {
-    printf("Tree: ");
     node_print_pre_order(tree->root, tree->key_print_fn, tree->val_print_fn);
-    printf("\n");
 }
 
 
-// in order
 void tree_print_in_order(Tree *tree) {
-    printf("Tree: ");
     node_print_in_order(tree->root, tree->key_print_fn, tree->val_print_fn);
-    printf("\n");
 }
 
 
-// post order
 void tree_print_post_order(Tree *tree) {
-    printf("Tree: ");
     node_print_post_order(tree->root, tree->key_print_fn, tree->val_print_fn);
-    printf("\n");
 }
 
 
