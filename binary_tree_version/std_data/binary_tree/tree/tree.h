@@ -25,6 +25,7 @@ data_type tree_root (Tree *tree);
 
 void tree_add (Tree *tree, key_type key, data_type value);
 
+// insere a força o valor no nó, mesmo que já exista um valor com a mesma chave
 void tree_set_value (Tree *tree, key_type key, data_type value);
 
 data_type tree_max_value (Tree *tree);

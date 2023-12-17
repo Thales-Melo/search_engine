@@ -12,10 +12,8 @@
 
 int main(int argc, char **argv)
 {   
-    double start = get_timestamp();
     Tree *index = load_index(INDEX_FILE);
-    double end = get_timestamp();
-    printf ("Tempo de carregamento do indice: %lf\n", end - start);
+    
     char query[500];
     printf ("Query: ");
     scanf("%[^\n]s", query);
@@ -23,12 +21,10 @@ int main(int argc, char **argv)
     Tree *docs = search_docs(index, query);
 
     search_output(docs, OUTPUT);
+
     tree_destroy(index);
     
     tree_destroy(docs);
-
-
-
 
     return 0;
 }

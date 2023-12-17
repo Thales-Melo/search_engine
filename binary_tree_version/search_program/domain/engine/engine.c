@@ -81,7 +81,7 @@ Tree *search_docs(Tree *index, char *query) {
     Vector *words = read_query(query);
 
     // Documentos recomendados e respectivas relevâncias
-    Tree *recommendations = tree_construct(compara_strings, NULL, free, print_string, print_string, fprint_string, fprint_string);
+    Tree *recommendations = tree_construct(compara_strings, free, NULL, print_string, print_string, fprint_string, fprint_string);
 
     // Para cada palavra da query
     for (int i = 0; i < vector_size(words); i++) {

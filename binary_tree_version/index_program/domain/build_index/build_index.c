@@ -8,27 +8,20 @@
 #include <string.h>
 
 
-int word_already_indexed (Tree *index, char *word) {
-    return tree_contains_key(index, word);
-}
-
 int word_in_document(Tree *collection, char *doc) {
     return tree_contains_key(collection, doc);
 }
 
+
+
 void grow_word_frequency (Tree *col, key_type key) {
-    // int *freq = (int*)tree_search(col->documents, key);
-    // tree_set_value(col->documents, key, &freq + 1);
-    // printf ("FREQUENCIA: %d\n", *((int*)tree_search(col->documents, key)));
     int *freq = (int*)tree_search(col, key);
-    // if (freq != NULL) {
-        // Se a chave já existir na árvore, incrementa a frequência
     (*freq)++;
-    // }
 }
 
 
-// Adicionar o documento com frequencia inicial 1
+
+// Adiciona um documento a colecao (uma arvore)
 void add_document (Tree *collection, char *doc) {
     int *freq = (int*)malloc(sizeof(int));
     *freq = 1;
@@ -36,11 +29,6 @@ void add_document (Tree *collection, char *doc) {
     tree_add(collection, doc, freq);
 }
 
-// Se a palavra nao esta no indice, adicionamos ela
-void word_index_add (Tree *index, char *word) {
-    tree_add(index, word, tree_construct(compara_strings, 
-                free, free, print_string, collection_print, fprint_col_key, fprint_col_value));
-}
 
 
 void connect_word_to_index(Tree *index, char *word, char *document) {
@@ -49,11 +37,13 @@ void connect_word_to_index(Tree *index, char *word, char *document) {
     if (collection != NULL) {
         if (word_in_document(collection, document)) {
             grow_word_frequency(collection, document);
-        } else {
+        } 
+        else {
             add_document(collection, document);
         }
         free(word);
-    } else {
+    } 
+    else {
         Tree *col = tree_construct(compara_strings,
                             NULL, free, print_string, collection_print,
                                         fprint_col_key, fprint_col_value);
@@ -62,6 +52,7 @@ void connect_word_to_index(Tree *index, char *word, char *document) {
     }
     
 }
+
 
 
 void process_document(Tree *index, char *document) {
@@ -77,6 +68,7 @@ void process_document(Tree *index, char *document) {
 }
 
 
+
 void index_build(Tree *index, Vector *files) {
     double start = get_timestamp();
 
@@ -89,7 +81,6 @@ void index_build(Tree *index, Vector *files) {
     double end = get_timestamp();
     printf("TEMPO DE CONSTRUÇÃO DO ÍNDICE = %lf\n", end - start);
 }
-
 
 
 

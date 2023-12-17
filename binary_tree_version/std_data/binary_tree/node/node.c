@@ -99,11 +99,12 @@ Node *node_add_recursive(Node *node, KeyValPair *key_val, int (*cmp_fn)(data_typ
 
     if (cmp_fn(key_val_pair_key(key_val), key_val_pair_key(node->key_val)) < 0) {
         node->left = node_add_recursive(node->left, key_val, cmp_fn);
-    } else {
+    } 
+    else {
         node->right = node_add_recursive(node->right, key_val, cmp_fn);
     }
 
-    return node;  // Adicionado o retorno aqui para conectar o nó pai ao novo nó.
+    return node; 
 }
 
 
@@ -229,7 +230,6 @@ void node_print_level_order(Node *root, void (*key_print_fn)(key_type), void (*v
 
     while (queue->FL->head != NULL) {
         Node *currentNode = queue_dequeue(queue);
-        // printf("%d ", currentNode->data);
         key_val_pair_print(currentNode->key_val, key_print_fn, val_print_fn);
 
         if (currentNode->left != NULL)
@@ -298,9 +298,7 @@ void node_file_print_level_order(Node *root, void (*key_fprint_fn)(key_type, FIL
 
     while (queue->FL->head != NULL) {
         Node *currentNode = queue_dequeue(queue);
-        // printf("%d ", currentNode->data);
         key_val_pair_file_print(currentNode->key_val, key_fprint_fn, val_fprint_fn, fp);
-        // fl_node_destroy(currentNode);
 
         if (currentNode->left != NULL) {
             queue_enqueue(queue, currentNode->left);
@@ -378,7 +376,7 @@ key_type node_index_key_in_order(Node *root, int index) {
     else if (index == leftSubtreeSize) {
         return node_key(root);
     }
-    // Se o índice estiver na subárvore à direita, busca nessa subárvore
+    // Se o índice estiver na subárvore à direita, busca nela
     else {
         return node_index_key_in_order(root->right, index - leftSubtreeSize - 1);
     }
@@ -388,7 +386,7 @@ key_type node_index_key_in_order(Node *root, int index) {
 
 data_type node_index_value_in_order(Node *root, int index) {
     if (root == NULL || index < 0) {
-        return NULL;  // Assumindo que o tipo de dado value_type é um ponteiro
+        return NULL; 
     }
 
     // Número de nós na subárvore à esquerda
@@ -402,7 +400,7 @@ data_type node_index_value_in_order(Node *root, int index) {
     else if (index == leftSubtreeSize) {
         return node_value(root);
     }
-    // Se o índice estiver na subárvore à direita, busca nessa subárvore
+    // Se o índice estiver na subárvore à direita, busca nela
     else {
         return node_index_value_in_order(root->right, index - leftSubtreeSize - 1);
     }
