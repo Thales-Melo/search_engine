@@ -1,4 +1,11 @@
-Tempo de busca: 0.012037
-../datasets/small/files/a3.txt: 5
-../datasets/small/files/a2.txt: 2
-../datasets/small/files/a1.txt: 1
+Tempo de busca: 1.585058
+../datasets/medium/files/3117072006ept.txt: 47
+../datasets/medium/files/0817022006cid.txt: 45
+../datasets/medium/files/3625102006pot.txt: 43
+../datasets/medium/files/3506102006pot.txt: 43
+../datasets/medium/files/2912112006eco.txt: 43
+../datasets/medium/files/2906032006ept.txt: 42
+../datasets/medium/files/4318072006pot.txt: 40
+../datasets/medium/files/3316112005pot.txt: 39
+../datasets/medium/files/1504112006cid.txt: 38
+../datasets/medium/files/3503082005pot.txt: 38

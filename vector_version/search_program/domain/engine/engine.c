@@ -193,6 +193,10 @@ void search_output(Vector *docs, char* output_file, double duration) {
         }
         Output *OP = (Output *)vector_get(V, i);
         fprintf(F, "%s: %d\n", OP->doc, OP->freq);
+    }
+
+    for (int i=0; i<vector_size(V); i++) {
+        Output *OP = (Output *)vector_get(V, i);
         output_destroy(OP);
     }
 
