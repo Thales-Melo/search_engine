@@ -26,7 +26,6 @@ Vector *dir_build_file_names(char *dir, char *file_list_file_name) {
         }
         char file_path[120];
         sprintf(file_path, "%s/%s", dir, line);
-        // printf ("FILE PATH: %s\n", file_path);
 
         vector_push_back(file_names, strdup(file_path));
     }
@@ -36,6 +35,8 @@ Vector *dir_build_file_names(char *dir, char *file_list_file_name) {
     return file_names;
 }
 
+
+
 char *read_file_to_string(const char *file_name) {
     FILE *file = fopen(file_name, "r");
 
@@ -44,7 +45,7 @@ char *read_file_to_string(const char *file_name) {
         exit(1);
     }
 
-    // Obter o tamanho do arquivo
+    // Aqui é pra obter o tamanho do arquivo
     fseek(file, 0, SEEK_END);
     long file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
@@ -56,7 +57,7 @@ char *read_file_to_string(const char *file_name) {
         exit(1);
     }
 
-    // Ler o conteúdo do arquivo para a string alocada
+    // Ler o conteúdo do arquivo todo para uma string
     fread(file_content, 1, file_size, file);
     file_content[file_size] = '\0'; 
 
@@ -64,6 +65,8 @@ char *read_file_to_string(const char *file_name) {
 
     return file_content;
 }
+
+
 
 Vector *read_file_splited(char *file_name) {
     // Ler todo o arquivo e armazenar em uma string

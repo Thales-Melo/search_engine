@@ -86,8 +86,6 @@ Vector *load_index(char *index_filename) {
 }
 
 Vector *search_docs(Vector *index, char *query) {
-    double start = get_timestamp();
-
     // Palavras da query
     Vector *words = read_query(query);
 
@@ -127,20 +125,14 @@ Vector *search_docs(Vector *index, char *query) {
         aux = NULL;
     }
 
-    double end = get_timestamp();
-    printf("TEMPO DE BUSCA: %lf\n", end-start);
     libera_dados(words);
 
     return recommendations;
 }
 
-
-
-
-
-
-
-// OUTPUT
+////////////////////////////////////////
+// OUTPUT FORMAT
+////////////////////////////////////////
 
 Output *output_construct(char *doc, int freq) {
     Output *output = (Output *)malloc(sizeof(Output));
@@ -149,6 +141,7 @@ Output *output_construct(char *doc, int freq) {
 
     return output;
 }
+
 
 
 void output_destroy (void *output) {
@@ -166,6 +159,8 @@ void output_destroy (void *output) {
     }
 }
 
+
+
 int compara_output (void *a, void *b) {
     Output *A = (Output *)a;
     Output *B = (Output *)b;
@@ -181,7 +176,9 @@ int compara_output (void *a, void *b) {
     }
 }
 
-void search_output(Vector *docs, char* output_file) {
+
+
+void search_output(Vector *docs, char* output_file, double duration) {
     FILE *F = fopen(output_file, "w");
 
     if (F == NULL) {
@@ -189,23 +186,19 @@ void search_output(Vector *docs, char* output_file) {
         exit(1);
     }
 
+    fprintf(F, "Tempo de busca: %lf\n", duration);
+
     Vector *V = vector_construct();
 
     for (int i=0; i<vector_size(docs); i++) {
-        // char *doc = (char *)tree_get_key_in_order(docs, i);
         char *doc = ((Document *)vector_get(docs, i))->document;
-        // int *freq = (int *)tree_get_value_in_order(docs, i);
         int freq = ((Document *)vector_get(docs, i))->frequency;
-        // printf ("doc = %s || freq = %d\n", doc, *freq);
-        // fprintf(F, "%s %d\n", doc, *freq);
         Output *OP = output_construct(doc, freq);
-        // printf ("OP.doc = %s || OP.freq = %d\n", OP->doc, OP->freq);
         vector_push_back(V, OP);
     }
 
     vector_sort(V, compara_output);
 
-    // printf ("vector_size: %d\n", vector_size(V));
     for (int i=0; i<vector_size(V); i++) {
         if (i == 10) {
             break;
@@ -213,20 +206,16 @@ void search_output(Vector *docs, char* output_file) {
         Output *OP = (Output *)vector_get(V, i);
         fprintf(F, "%s: %d\n", OP->doc, OP->freq);
         output_destroy(OP);
-        // printf ("%s: %d\n", OP->doc, OP->freq);
     }
 
-    // for (int i=0; i<vector_size(V); i++) {
-    //     Output *OP = (Output *)vector_get(V, i);
-    //     output_destroy(OP);
-    // }
     vector_destroy(V);
 
     fclose(F);
 }
 
 
-void index_destroy_ (Vector *index) {
+
+void index_loaded_destroy (Vector *index) {
     for (int i=0; i<vector_size(index); i++) {
         Word *word = vector_get(index, i);
         for (int i=0; i<vector_size(word->collection->documents); i++) {
@@ -235,18 +224,17 @@ void index_destroy_ (Vector *index) {
                 free(doc->document);
                 doc->document = NULL;
             }
-            // document_destroy(doc);
         }
         word_destroy(word);
     }
     vector_destroy(index);
 }
 
+
+
 void search_destroy (Vector *docs) {
     for (int i=0; i<vector_size(docs); i++) {
         Document *doc = vector_get(docs, i);
-        // free(doc->document);
-        // doc->document = NULL;
         document_destroy(doc);
     }
     vector_destroy(docs);

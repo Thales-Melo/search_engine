@@ -9,6 +9,7 @@
 #define INDEX_FILE argv[1]
 #define OUTPUT argv[2]
 
+
 int main(int argc, char **argv)
 {
     Vector *index = load_index(INDEX_FILE);
@@ -17,16 +18,15 @@ int main(int argc, char **argv)
     printf ("Query: ");
     scanf("%[^\n]s", query);
 
+    double start = get_timestamp();
     Vector *docs = search_docs(index, query);
+    double end = get_timestamp();
 
-    search_output(docs, OUTPUT);
+    search_output(docs, OUTPUT, end-start);
     
-
-
     search_destroy(docs);
 
-    index_destroy_(index);
-
+    index_loaded_destroy(index);
 
     return 0;
 }
