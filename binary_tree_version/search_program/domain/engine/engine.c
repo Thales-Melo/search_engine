@@ -75,7 +75,6 @@ Tree *load_index(char *index_filename) {
 
 
 Tree *search_docs(Tree *index, char *query) {
-    double start = get_timestamp();
 
     // Palavras da query
     Vector *words = read_query(query);
@@ -124,8 +123,6 @@ Tree *search_docs(Tree *index, char *query) {
         }
     }
 
-    double end = get_timestamp();
-    printf("TEMPO DE BUSCA: %lf\n", end - start);
     libera_dados(words);
 
     return recommendations;
@@ -184,7 +181,7 @@ int compara_output (void *a, void *b) {
 
 
 
-void search_output(Tree *docs, char* output_file) {
+void search_output(Tree *docs, char* output_file, double duration) {
     FILE *F = fopen(output_file, "w");
 
     if (F == NULL) {
@@ -194,6 +191,7 @@ void search_output(Tree *docs, char* output_file) {
 
     Vector *V = vector_construct();
 
+    fprintf(F, "Tempo de busca: %lf\n", duration);
     for (int i=0; i<tree_size(docs); i++) {
         char *doc = (char *)tree_get_key_in_order(docs, i);
         int *freq = (int *)tree_get_value_in_order(docs, i);

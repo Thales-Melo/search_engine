@@ -17,10 +17,12 @@ int main(int argc, char **argv)
     char query[500];
     printf ("Query: ");
     scanf("%[^\n]s", query);
-
+    
+    double start = get_timestamp();
     Tree *docs = search_docs(index, query);
+    double end = get_timestamp();
 
-    search_output(docs, OUTPUT);
+    search_output(docs, OUTPUT, end-start);
 
     tree_destroy(index);
     

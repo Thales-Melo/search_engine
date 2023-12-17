@@ -9,7 +9,7 @@ Tree *load_index(char *index_filename);
 
 Tree *search_docs(Tree *index, char *query);
 
-void search_output(Tree *docs, char* output_file);
+void search_output(Tree *docs, char* output_file, double duration);
 
 
 #endif

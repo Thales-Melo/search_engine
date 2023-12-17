@@ -1,0 +1,4 @@
+Tempo de busca: 0.011552
+../datasets/small/files/a3.txt: 5
+../datasets/small/files/a2.txt: 2
+../datasets/small/files/a1.txt: 1
