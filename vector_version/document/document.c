@@ -17,11 +17,6 @@ void document_destroy(Document *document) {
         printf ("document_destroy: document == NULL\n");
         return;
     }
-    // if (document->document != NULL) {
-    //     free(document->document);
-    //     document->document = NULL;
-    // }
-
     free(document);
     document = NULL;
 }

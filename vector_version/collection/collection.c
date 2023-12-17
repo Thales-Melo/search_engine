@@ -20,8 +20,6 @@ void collection_destroy(Collection *collection) {
         for (int i=0; i<vector_size(collection->documents); i++) {
             collection->destroy_fn(vector_get(collection->documents, i));
         }
-        // free(collection->documents);
-        // collection->documents = NULL;
         vector_destroy(collection->documents);
     }
 
@@ -52,7 +50,6 @@ void collection_file_print(Collection *collection, FILE *file) {
 
     for (int i=0; i<vector_size(collection->documents); i++) {
         document_file_print(vector_get(collection->documents, i), file);
-        // collection->destroy_fn(vector_get(collection->documents, i));
     }
 }
 
@@ -90,17 +87,12 @@ int collection_contains(Collection *collection, data_type document) {
         return 0;
     }
 
-    // printf ("collection_contains: vector_size(collection->documents) = %d\n", vector_size(collection->documents));
     for (int i=0; i<vector_size(collection->documents); i++) {
         if (strcmp(((Document *)vector_get(collection->documents, i))->document, ((Document *)document)->document) == 0) {
-            // printf("collection contém documento\n");
             return 1;
         }
     }
-    // printf("collection nao contem documento\n");
-
     return 0;
-
 }
 
 data_type collection_get(Collection *collection, data_type word) {
