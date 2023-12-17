@@ -29,7 +29,7 @@ run_index:
 	./index
 
 val_search:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./search
+	valgrind ./search
 
 val_index:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./index
+	valgrind ./index
