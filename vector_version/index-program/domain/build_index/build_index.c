@@ -19,9 +19,11 @@ void grow_word_frequency (Collection *col, char *doc) {
 
 
 
-// Adicionar o documento com frequencia inicial 1
+// Adicionar o documento à coleção
 void add_document (Collection *collection, char *doc) {
     Document *document = document_construct(doc, 1);
+    // A função collection_add_document já trata os casos em que o documento já existe
+    // Então a frequência do documento é incrementada
     collection_add_document(collection, document);
 }
 
