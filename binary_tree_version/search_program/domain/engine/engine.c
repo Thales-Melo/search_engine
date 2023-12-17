@@ -81,7 +81,7 @@ Tree *search_docs(Tree *index, char *query) {
     Vector *words = read_query(query);
 
     // Documentos recomendados e respectivas relevâncias
-    Tree *recommendations = tree_construct(compara_strings, free, NULL, print_string, print_string, fprint_string, fprint_string);
+    Tree *recommendations = tree_construct(compara_strings, free, free, print_string, print_string, fprint_string, fprint_string);
 
     // Para cada palavra da query
     for (int i = 0; i < vector_size(words); i++) {
@@ -92,7 +92,7 @@ Tree *search_docs(Tree *index, char *query) {
             // Para cada documento em que a palavra aparece
             for (int j = 0; j < tree_size(col); j++) {
                 // Obtém o nome do documento
-                char *doc = (char *)tree_get_key_in_order(col, j);
+                char *doc = strdup((char *)tree_get_key_in_order(col, j));
                 // Obtém a frequência da palavra no documento
                 int *freq = (int *)tree_get_value_in_order(col, j);
                 int *old_freq = (int *)tree_search(recommendations, doc);
@@ -103,6 +103,7 @@ Tree *search_docs(Tree *index, char *query) {
                     int *freq_copy = (int *)malloc(sizeof(int));
                     *freq_copy = *freq;
                     tree_add(recommendations, doc, freq_copy);
+                    
                 }
                 // Se o documento já está na lista de recomendações
                 else {
@@ -117,6 +118,7 @@ Tree *search_docs(Tree *index, char *query) {
                     free(old_freq);
                     // Define a nova frequência
                     tree_set_value(recommendations, doc, new_freq);
+                    free(doc);
                 }
             }
         }
@@ -153,7 +155,6 @@ void output_destroy (void *output) {
         return;
     }
     if (OP->doc != NULL) {
-        printf("DOC: %s\n", OP->doc);
         free(OP->doc);
         OP->doc = NULL;
     }
