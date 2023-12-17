@@ -2,14 +2,17 @@
 #define _ENGINE_H_
 
 
-#include "../../../std_data/binary_tree/tree/tree.h"
+#include "../../../std_data/vector/vector.h"
 
 
-Tree *load_index(char *index_filename);
+Vector *load_index(char *index_filename);
 
-Tree *search_docs(Tree *index, char *query);
+Vector *search_docs(Vector *index, char *query);
 
-void search_output(Tree *docs, char* output_file);
+void search_output(Vector *docs, char* output_file);
 
+void index_destroy_ (Vector *index);
+
+void search_destroy (Vector *docs);
 
 #endif

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 
+
 Vector *string_split(char *str)
 {
     Vector *words = vector_construct();

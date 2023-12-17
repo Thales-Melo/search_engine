@@ -44,3 +44,4 @@ int document_cmp (void *a, void *b) {
 
     return strcmp(A->document, B->document);
 }
+

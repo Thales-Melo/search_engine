@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wno-unused-result -g
 
-COMMON_SRCS = std_data/vector/vector.c utils/utils.c index-program/domain/file_reading/dir_read.c collection/collection.c index-program/domain/build_index/build_index.c word/word.c document/document.c
+COMMON_SRCS = std_data/vector/vector.c utils/utils.c index-program/domain/file_reading/dir_read.c collection/collection.c index-program/domain/build_index/build_index.c word/word.c document/document.c search_program/domain/engine/engine.c
 SEARCH_SRCS = search.c $(COMMON_SRCS)
 INDEX_SRCS = index.c $(COMMON_SRCS)
 
