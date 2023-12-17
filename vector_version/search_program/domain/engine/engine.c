@@ -16,9 +16,7 @@ typedef struct output {
 
 
 Vector *read_query (char *query) {
-    Vector *words = vector_construct();
-
-    words = string_split(query);
+    Vector *words = string_split(query);
 
     Vector *unique = vector_unique(words, compara_strings);
 
@@ -41,45 +39,41 @@ Vector *load_index(char *index_filename) {
     }
     int size;
     fscanf(F, "%d\n", &size);
-    // printf("%d\n", size);
 
     for (int i=0; i<size; i++) {
         char aux[100];
         fscanf(F, "%s\n", aux);
         char *key = strdup(aux);
-        // printf ("%s\n", key);
         int num_docs;
         fscanf (F,"%d\n", &num_docs);
-        // printf ("%d\n", num_docs);
-        // Word *word = word_construct();
         Word *word = word_constructor(key);
+
         
         for (int j=0; j<num_docs; j++) {
             char aux2[100];
             fscanf (F, "%s ", aux2);
-            // char *doc = (char*)malloc(sizeof(char)*(strlen(aux2)+1));
-            // memcpy(doc, aux2, strlen(aux2)+1);
-            char *doc = strdup(aux2);
-            // printf ("%s ", doc);
-            // int *freq = (int *)malloc(sizeof(int));
             int freq;
             fscanf (F, "%d\n", &freq);
-            // printf ("%d\n", *freq);
-            // tree_add(col, doc, freq);
+            
+            // int idx_word = vector_find(index, word, word_cmp);
 
-
-            // int idx = vector_find(index, word, word_cmp);
-            // if (idx >= 0) {
-            //     word_destroy(word);
-            //     word = vector_get(index, idx);
-            //     Document *document = document_construct(doc, freq);
-            //     collection_add_document(word->collection, document);
+            Document *document = document_construct(strdup(aux2), freq);
+            // if (idx_word < 0) {
+            //     vector_push_back(word->collection->documents, document);
+            //     vector_push_back(index, word);
             // }
+                
             // else {
-            Document *document = document_construct(doc, freq);
-            collection_add_document(word->collection, document);
+            //     Word *aux = vector_get(index, idx_word);
+            //     word_destroy(word);
+            //     Document *document_aux = vector_get(aux->collection->documents, vector_find(aux->collection->documents, document, document_cmp));
+            //     document_aux->frequency += freq;
+            //     document_destroy(document);
             // }
-
+        
+           
+            vector_push_back(word->collection->documents, document);
+          
 
         }
 
@@ -107,9 +101,6 @@ Vector *search_docs(Vector *index, char *query) {
         int idx = vector_find(index, aux, word_cmp);
         // Se a palavra não estiver no índice, passa para a próxima
         if (idx >= 0) {
-            // collection_destroy(aux->collection);
-            // free(aux);
-            // aux = NULL;
             Word *word = (Word *)vector_get(index, idx);
             // Para cada documento em que a palavra aparece
             for (int j=0; j<vector_size(word->collection->documents); j++) {
@@ -139,9 +130,7 @@ Vector *search_docs(Vector *index, char *query) {
     double end = get_timestamp();
     printf("TEMPO DE BUSCA: %lf\n", end-start);
     libera_dados(words);
-    // free(words);
-    // vector_destroy(words);
-    // vector_destroy(words);
+
     return recommendations;
 }
 
@@ -240,6 +229,14 @@ void search_output(Vector *docs, char* output_file) {
 void index_destroy_ (Vector *index) {
     for (int i=0; i<vector_size(index); i++) {
         Word *word = vector_get(index, i);
+        for (int i=0; i<vector_size(word->collection->documents); i++) {
+            Document *doc = vector_get(word->collection->documents, i);
+            if (doc->document != NULL) {
+                free(doc->document);
+                doc->document = NULL;
+            }
+            // document_destroy(doc);
+        }
         word_destroy(word);
     }
     vector_destroy(index);
@@ -248,6 +245,8 @@ void index_destroy_ (Vector *index) {
 void search_destroy (Vector *docs) {
     for (int i=0; i<vector_size(docs); i++) {
         Document *doc = vector_get(docs, i);
+        // free(doc->document);
+        // doc->document = NULL;
         document_destroy(doc);
     }
     vector_destroy(docs);
