@@ -1,8 +1,12 @@
-// PROGRAMA QUE CRIA UM INDEX PARA UM ARQUIVO DE DADOS PREPROCESSADOS DE JORNAIS
-// O INTUITO DO INDEX É FACILITAR A BUSCA POR PALAVRAS EM UM ARQUIVO DE TEXTO
-// OU SEJA, COM O INDEX CRIADO, RODAREMOS UM "BUSCADOR" PARA BUSCAR OS ARQUIVOS COM MAIOR FREQUÊNCIA DAS PALAVRAS BUSCADAS
+// Created by: Thales Melo da Penha
+// Disciplina: Estrutura de Dados
+// Universidade Federal do Espírito Santo
+// Professor: Filipe Wall Mutz
 
-// #include "std_data/binary_tree/tree/tree.h"
+/*
+* EXECUTAR COMO: ./index DIRETORIO OUTPUT
+*/
+
 #include "std_data/vector/vector.h"
 #include "utils/utils.h"
 #include <stdio.h>

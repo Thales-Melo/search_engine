@@ -1,3 +1,12 @@
+// Created by: Thales Melo da Penha
+// Disciplina: Estrutura de Dados
+// Universidade Federal do Espírito Santo
+// Professor: Filipe Wall Mutz
+
+/*
+* EXECUTAR COMO: ./search INDICE OUTPUT
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

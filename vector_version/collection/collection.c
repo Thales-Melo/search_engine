@@ -4,12 +4,15 @@
 #include "../document/document.h"
 #include <string.h>
 
+
 Collection *collection_construct(collection_destroy_fn destroy_fn) {
     Collection *collection = (Collection *)malloc(sizeof(Collection));
     collection->documents = vector_construct(destroy_fn);
     collection->destroy_fn = destroy_fn;
     return collection;
 }
+
+
 
 void collection_destroy(Collection *collection) {
     if (collection == NULL) {
@@ -27,6 +30,8 @@ void collection_destroy(Collection *collection) {
     collection = NULL;
 }
 
+
+
 void collection_print(Collection *collection) {
     if (collection == NULL) {
         printf ("collection_print: collection == NULL\n");
@@ -40,6 +45,8 @@ void collection_print(Collection *collection) {
     }
 }
 
+
+
 void collection_file_print(Collection *collection, FILE *file) {
     if (collection == NULL) {
         printf ("collection_file_print: collection == NULL\n");
@@ -52,6 +59,7 @@ void collection_file_print(Collection *collection, FILE *file) {
         document_file_print(vector_get(collection->documents, i), file);
     }
 }
+
 
 
 void collection_add_document(Collection *collection, data_type document) {
@@ -77,6 +85,7 @@ void collection_add_document(Collection *collection, data_type document) {
 }
 
 
+
 int collection_contains(Collection *collection, data_type document) {
     if (collection == NULL) {
         printf ("collection_contains: collection == NULL\n");
@@ -94,6 +103,8 @@ int collection_contains(Collection *collection, data_type document) {
     }
     return 0;
 }
+
+
 
 data_type collection_get(Collection *collection, data_type word) {
     if (collection == NULL) {
@@ -119,6 +130,8 @@ data_type collection_get(Collection *collection, data_type word) {
 void fprint_col_value(data_type value, FILE *file) {
     fprintf (file, "%d\n", *(int *)value);
 }
+
+
 
 void fprint_col_key(data_type key, FILE *file) {
     fprintf (file, "%s ", (char *)key);
