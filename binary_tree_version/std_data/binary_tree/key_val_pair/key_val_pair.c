@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef struct KeyValPair {
     key_type key;
     data_type value;
 } KeyValPair;
+
 
 
 KeyValPair *key_val_pair_construct(void *key, void *value)
@@ -18,6 +20,7 @@ KeyValPair *key_val_pair_construct(void *key, void *value)
 
     return key_val;
 }
+
 
 
 void key_val_pair_destroy(KeyValPair *key_val, void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type))
@@ -33,7 +36,6 @@ void key_val_pair_destroy(KeyValPair *key_val, void (*val_destroy_fn)(data_type)
     }
     if (key_destroy_fn != NULL) {
         if (key_val->key != NULL) {
-            // printf ("%s\n", (char*)key_val->key);
             key_destroy_fn(key_val->key);
             key_val->key = NULL;  
         }
@@ -46,10 +48,12 @@ void key_val_pair_destroy(KeyValPair *key_val, void (*val_destroy_fn)(data_type)
 }
 
 
+
 key_type key_val_pair_key(KeyValPair *key_val)
 {
     return key_val->key;
 }
+
 
 
 data_type key_val_pair_value(KeyValPair *key_val)
@@ -58,8 +62,9 @@ data_type key_val_pair_value(KeyValPair *key_val)
 }
 
 
+
 void key_val_pair_set_value(KeyValPair *key_val, data_type value)
-{
+{   
     key_val->value = value;
 }
 
@@ -70,10 +75,12 @@ void key_val_pair_set_key(KeyValPair *key_val, key_type key)
 }
 
 
+
 int key_val_pair_cmp(data_type a, data_type b, int (*cmp_fn)(data_type, data_type))
 {
     return cmp_fn(a, b);
 }
+
 
 
 void key_val_pair_print(KeyValPair *key_val, void (*print_key)(key_type), void (*print_value)(data_type))
@@ -82,6 +89,7 @@ void key_val_pair_print(KeyValPair *key_val, void (*print_key)(key_type), void (
     print_value(key_val->value);
     printf ("\n");
 }
+
 
 
 void key_val_pair_file_print(KeyValPair *key_val, void (*f_print_key)(key_type, FILE*), void (*f_print_value)(data_type, FILE*), FILE *file)

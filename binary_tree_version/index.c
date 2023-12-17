@@ -1,14 +1,9 @@
-// PROGRAMA QUE CRIA UM INDEX PARA UM ARQUIVO DE DADOS PREPROCESSADOS DE JORNAIS
-// O INTUITO DO INDEX É FACILITAR A BUSCA POR PALAVRAS EM UM ARQUIVO DE TEXTO
-// OU SEJA, COM O INDEX CRIADO, RODAREMOS UM "BUSCADOR" PARA BUSCAR OS ARQUIVOS COM MAIOR FREQUÊNCIA DAS PALAVRAS BUSCADAS
-
 #include "std_data/binary_tree/tree/tree.h"
 #include "std_data/vector/vector.h"
 #include "utils/utils.h"
-#include <stdio.h>
-#include "index-program/domain/file_reading/dir_read.h"
+#include "index_program/domain/file_reading/dir_read.h"
 #include <stdlib.h>
-#include "index-program/domain/build_index/build_index.h"
+#include "index_program/domain/build_index/build_index.h"
 #include "collection/collection.h"
 
 #define DATA_DIR argv[1]

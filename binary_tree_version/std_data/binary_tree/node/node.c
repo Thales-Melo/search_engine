@@ -4,11 +4,13 @@
 #include <string.h>
 #include "../../queue/queue.h"
 
+
 typedef struct Node {
     KeyValPair *key_val;
     Node *left;
     Node *right;
 } Node;
+
 
 
 Node *node_construct (KeyValPair *key_val, Node *left, Node *right) {
@@ -20,6 +22,7 @@ Node *node_construct (KeyValPair *key_val, Node *left, Node *right) {
 
     return N;
 }
+
 
 
 void node_destroy_recursive(Node *N, void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type)) {
@@ -42,6 +45,8 @@ void node_destroy_recursive(Node *N, void (*val_destroy_fn)(data_type), void (*k
     }
 }
 
+
+
 void node_destroy (Node *N, void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type)) {
     if (N == NULL) {
         return;
@@ -55,27 +60,36 @@ void node_destroy (Node *N, void (*val_destroy_fn)(data_type), void (*key_destro
     }
 }
 
+
+
 key_type node_key (Node *N) {
     return key_val_pair_key(N->key_val);
 }
+
 
 
 data_type node_value (Node *N) {
     return key_val_pair_value(N->key_val);
 }
 
+
+
 KeyValPair *node_key_val_pair (Node *N) {
     return N->key_val;
 }
+
+
 
 Node *node_right (Node *N) {
     return N->right;
 }
 
 
+
 Node *node_left (Node *N) {
     return N->left;
 }
+
 
 
 Node *node_add_recursive(Node *node, KeyValPair *key_val, int (*cmp_fn)(data_type, data_type)) {
@@ -93,6 +107,7 @@ Node *node_add_recursive(Node *node, KeyValPair *key_val, int (*cmp_fn)(data_typ
 }
 
 
+
 void node_print (Node *N, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (N == NULL) {
         return;
@@ -104,9 +119,11 @@ void node_print (Node *N, void (*key_print_fn)(key_type), void (*val_print_fn)(d
 }
 
 
+
 void node_set_left(Node *N, Node *left) {
     N->left = left;
 }
+
 
 
 void node_set_right(Node *N, Node *right) {
@@ -114,11 +131,13 @@ void node_set_right(Node *N, Node *right) {
 }
 
 
+
 /////////////////////////////////////////////////////////////
 
 int compare_keys (key_type key1, key_type key2) {
     return strcmp(key1, key2);
 }
+
 
 
 /////////////////////////////////////////////////////////////
@@ -144,6 +163,7 @@ Node *node_search (Node *node, key_type *key, int (*cmp_fn)(data_type, data_type
 }
 
 
+
 Node *node_remove_recursive(Node *node, key_type *key, int (*cmp_fn)(data_type, data_type), void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type)) {
     if (node == NULL) {
         return NULL;
@@ -151,21 +171,31 @@ Node *node_remove_recursive(Node *node, key_type *key, int (*cmp_fn)(data_type, 
 
     if (key_val_pair_cmp(key, key_val_pair_key(node->key_val), cmp_fn) < 0) {
         node->left = node_remove_recursive(node->left, key, cmp_fn, val_destroy_fn, key_destroy_fn);
-    } else if (key_val_pair_cmp(key, key_val_pair_key(node->key_val), cmp_fn) > 0) {
+    } 
+    else if (key_val_pair_cmp(key, key_val_pair_key(node->key_val), cmp_fn) > 0) {
         node->right = node_remove_recursive(node->right, key, cmp_fn, val_destroy_fn, key_destroy_fn);
-    } else {
+    } 
+    else {
         if (node->left == NULL && node->right == NULL) {
             key_val_pair_destroy(node->key_val, val_destroy_fn, key_destroy_fn);
-            free(node);
-            node = NULL;
+            if (node != NULL) {
+                free(node);
+                node = NULL;
+            }
+
             return NULL;
-        } else if (node->left == NULL || node->right == NULL) {
+        } 
+        else if (node->left == NULL || node->right == NULL) {
             Node *temp = (node->left == NULL) ? node->right : node->left;
             key_val_pair_destroy(node->key_val, val_destroy_fn, key_destroy_fn);
-            free(node);
-            node = NULL;
+            if (node != NULL) {
+                free(node);
+                node = NULL;
+            }
             return temp;
-        } else {
+
+        } 
+        else {
             Node *temp = node->right;
             while (temp->left != NULL) {
                 temp = temp->left;
@@ -179,6 +209,7 @@ Node *node_remove_recursive(Node *node, key_type *key, int (*cmp_fn)(data_type, 
 }
 
 
+
 Node *node_remove(Node *root, key_type *key, int (*cmp_fn)(data_type, data_type), void (*val_destroy_fn)(data_type), void (*key_destroy_fn)(key_type)) {
     Node *node = node_search(root, key, cmp_fn);
     if (node == NULL) {
@@ -186,6 +217,7 @@ Node *node_remove(Node *root, key_type *key, int (*cmp_fn)(data_type, data_type)
     }
     return node_remove_recursive(root, key, cmp_fn, val_destroy_fn, key_destroy_fn);
 }
+
 
 
 void node_print_level_order(Node *root, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
@@ -212,6 +244,7 @@ void node_print_level_order(Node *root, void (*key_print_fn)(key_type), void (*v
 }
 
 
+
 void node_print_in_order (Node *root, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (root == NULL) {
         return;
@@ -221,6 +254,8 @@ void node_print_in_order (Node *root, void (*key_print_fn)(key_type), void (*val
     key_val_pair_print(root->key_val, key_print_fn, val_print_fn);
     node_print_in_order(root->right, key_print_fn, val_print_fn);
 }
+
+
     
 void node_print_pre_order (Node *root, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (root == NULL) {
@@ -232,6 +267,8 @@ void node_print_pre_order (Node *root, void (*key_print_fn)(key_type), void (*va
     node_print_pre_order(root->right, key_print_fn, val_print_fn);
 }
 
+
+
 void node_print_post_order (Node *root, void (*key_print_fn)(key_type), void (*val_print_fn)(data_type)) {
     if (root == NULL) {
         return;
@@ -241,6 +278,8 @@ void node_print_post_order (Node *root, void (*key_print_fn)(key_type), void (*v
     node_print_post_order(root->right, key_print_fn, val_print_fn);
     key_val_pair_print(root->key_val, key_print_fn, val_print_fn);
 }
+
+
 
 void node_set_value(Node *N, data_type value) {
     key_val_pair_set_value(N->key_val, value);
@@ -277,6 +316,7 @@ void node_file_print_level_order(Node *root, void (*key_fprint_fn)(key_type, FIL
 }
 
 
+
 void node_file_print_in_order (Node *root, void (*key_fprint_fn)(key_type, FILE*), void (*val_fprint_fn)(data_type, FILE*), FILE *fp) {
     if (root == NULL) {
         return;
@@ -286,6 +326,7 @@ void node_file_print_in_order (Node *root, void (*key_fprint_fn)(key_type, FILE*
     key_val_pair_file_print(root->key_val, key_fprint_fn, val_fprint_fn, fp);
     node_file_print_in_order(root->right, key_fprint_fn, val_fprint_fn, fp);
 }
+
 
 
 void node_file_print_pre_order(Node *root, void (*key_fprint_fn)(key_type, FILE*), void (*val_fprint_fn)(data_type, FILE*), FILE *fp) {
@@ -299,6 +340,7 @@ void node_file_print_pre_order(Node *root, void (*key_fprint_fn)(key_type, FILE*
 }
 
 
+
 void node_file_print_post_order(Node *root, void (*key_fprint_fn)(key_type, FILE*), void (*val_fprint_fn)(data_type, FILE*), FILE *fp) {
     if (root == NULL) {
         return;
@@ -310,12 +352,14 @@ void node_file_print_post_order(Node *root, void (*key_fprint_fn)(key_type, FILE
 }
 
 
+
 int node_count(Node *root) {
     if (root == NULL) {
         return 0;
     }
     return 1 + node_count(root->left) + node_count(root->right);
 }
+
 
 
 key_type node_index_key_in_order(Node *root, int index) {
@@ -339,6 +383,7 @@ key_type node_index_key_in_order(Node *root, int index) {
         return node_index_key_in_order(root->right, index - leftSubtreeSize - 1);
     }
 }
+
 
 
 data_type node_index_value_in_order(Node *root, int index) {

@@ -1,9 +1,11 @@
 #ifndef _DATA_STRUCTURES_VECTOR_H_
 #define _DATA_STRUCTURES_VECTOR_H_
 
+
 typedef void *data_type;
 
 typedef struct Vector Vector;
+
 
 // Cria um vetor vazio
 Vector *vector_construct();
@@ -61,5 +63,6 @@ void vector_clear(Vector *v);
 
 // Libera a memoria alocada para o vetor
 void vector_destroy(Vector *v);
+
 
 #endif

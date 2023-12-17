@@ -1,8 +1,8 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-#include <stdio.h>
 
+#include <stdio.h>
 #include "../std_data/vector/vector.h"
 
 
@@ -29,5 +29,6 @@ double get_timestamp();
 void fprint_string(void *a, FILE *f);
 
 void free_string(void *a);
+
 
 #endif

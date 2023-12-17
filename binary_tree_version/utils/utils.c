@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 
+
 Vector *string_split(char *str)
 {
     Vector *words = vector_construct();
@@ -20,6 +21,7 @@ Vector *string_split(char *str)
 
     return words;
 }
+
 
 
 void libera_dados(Vector *words)
@@ -43,6 +45,7 @@ void libera_dados(Vector *words)
 }
 
 
+
 // precisamos fazer essa funcao porque as funcoes do vector esperam como argumento
 // uma funcao que recebe dois void* e nao dois char*.
 int compara_strings(void *a, void *b)
@@ -51,20 +54,27 @@ int compara_strings(void *a, void *b)
 }
 
 
+
 void print_string(void *a)
 {
     printf("%s\n", (char *)a);
 }
+
+
 
 void print_key(void *a)
 {
     printf("key: %s\n", (char *)a);
 }
 
+
+
 void print_val(void *a)
 {
     printf("val: %s\n", (char *)a);
 }
+
+
 
 
 double get_timestamp()
@@ -75,10 +85,12 @@ double get_timestamp()
 }
 
 
+
 void fprint_string(void *a, FILE *f)
 {
     fprintf(f, "%s\n", (char *)a);
 }
+
 
 
 void free_string(void *a)

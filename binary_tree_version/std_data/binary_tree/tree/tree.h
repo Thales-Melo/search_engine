@@ -51,16 +51,12 @@ void tree_pop_max (Tree *tree);
 
 void tree_pop_min (Tree *tree);
 
-// lever order
 void tree_print_level_order(Tree *tree);
 
-// pre order
 void tree_print_pre_order(Tree *tree);
 
-// in order
 void tree_print_in_order(Tree *tree);
 
-// post order
 void tree_print_post_order(Tree *tree);
 
 
@@ -80,5 +76,6 @@ void tree_file_print_post_order(Tree *tree, FILE *fp);
 key_type tree_get_key_in_order(Tree *tree, int index);
 
 data_type tree_get_value_in_order(Tree *tree, int index);
+
 
 #endif

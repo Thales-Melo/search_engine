@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 ForwardList *forward_list_construct () {
     ForwardList *FL = (ForwardList*)malloc(sizeof(ForwardList));
 
@@ -11,6 +12,8 @@ ForwardList *forward_list_construct () {
 
     return FL;
 }
+
+
 
 void forward_list_destroy (ForwardList *FL, void (*free_func)(data_type)) {
     FL_Node *aux = FL->head;
@@ -31,6 +34,8 @@ void forward_list_destroy (ForwardList *FL, void (*free_func)(data_type)) {
     FL = NULL;
 }
 
+
+
 void forward_list_push_front(ForwardList *FL, data_type value) {
     FL_Node *aux = FL->head;
     FL->head = fl_node_construct(value, aux);
@@ -39,6 +44,8 @@ void forward_list_push_front(ForwardList *FL, data_type value) {
     }
     FL->size++;
 } 
+
+
 
 void forward_list_push_back(ForwardList *FL, data_type value) {
     if (FL->head == NULL) {
@@ -52,12 +59,16 @@ void forward_list_push_back(ForwardList *FL, data_type value) {
     FL->size++;
 }
 
+
+
 data_type forward_list_pop_front(ForwardList *FL) {
     FL_Node *aux = FL->head;
     FL->head = aux->next;
     FL->size--;
     return fl_node_destroy(aux); 
 }
+
+
 
 void forward_list_print (ForwardList *FL, void (*print_fn)(data_type)) {
     FL_Node *aux = FL->head;
@@ -67,6 +78,8 @@ void forward_list_print (ForwardList *FL, void (*print_fn)(data_type)) {
         aux = aux->next;
     }
 }
+
+
 
 int forward_list_size (ForwardList *FL) {
     return FL->size;
