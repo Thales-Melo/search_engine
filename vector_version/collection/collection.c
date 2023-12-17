@@ -68,7 +68,6 @@ void collection_add_document(Collection *collection, data_type document) {
     }
 
     if (collection_contains(collection, document)) {
-        // printf ("collection_add: collection_contains(collection, document)\n");
         Document *doc = vector_get(collection->documents, vector_find(collection->documents, document, document_cmp));
         document_destroy(document);
         document_grow_frequency(doc);
