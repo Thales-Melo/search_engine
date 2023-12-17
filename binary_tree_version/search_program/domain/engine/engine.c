@@ -21,6 +21,8 @@ Vector *read_query (char *query) {
 
     Vector *unique = vector_unique(words, compara_strings);
 
+    // vector_destroy(words);
+    // libera_dados(words);
     vector_destroy(words);
 
     return unique;
@@ -80,6 +82,7 @@ Tree *search_docs(Tree *index, char *query) {
 
     // Palavras da query
     Vector *words = read_query(query);
+
     // Documentos recomendados e respectivas relevâncias
     Tree *recommendations = tree_construct(compara_strings, NULL, NULL, print_string, print_string, fprint_string, fprint_string);
     
@@ -109,7 +112,8 @@ Tree *search_docs(Tree *index, char *query) {
                     }
                     else {
                         *new_freq = *freq;
-                    }                  
+                    }                
+                      
                     tree_set_value(recommendations, doc, new_freq);
 
                 }
@@ -120,9 +124,7 @@ Tree *search_docs(Tree *index, char *query) {
     double end = get_timestamp();
     printf("TEMPO DE BUSCA: %lf\n", end-start);
     libera_dados(words);
-    // free(words);
-    // vector_destroy(words);
-    // vector_destroy(words);
+
     return recommendations;
 }
 
@@ -186,29 +188,21 @@ void search_output(Tree *docs, char* output_file) {
     for (int i=0; i<tree_size(docs); i++) {
         char *doc = (char *)tree_get_key_in_order(docs, i);
         int *freq = (int *)tree_get_value_in_order(docs, i);
-        // printf ("doc = %s || freq = %d\n", doc, *freq);
-        // fprintf(F, "%s %d\n", doc, *freq);
         Output *OP = output_construct(doc, *freq);
-        // printf ("OP.doc = %s || OP.freq = %d\n", OP->doc, OP->freq);
         vector_push_back(V, OP);
     }
 
     vector_sort(V, compara_output);
 
-    // printf ("vector_size: %d\n", vector_size(V));
     for (int i=0; i<vector_size(V); i++) {
         if (i == 10) {
             break;
         }
         Output *OP = (Output *)vector_get(V, i);
         fprintf(F, "%s: %d\n", OP->doc, OP->freq);
-        // printf ("%s: %d\n", OP->doc, OP->freq);
-    }
-
-    for (int i=0; i<vector_size(V); i++) {
-        Output *OP = (Output *)vector_get(V, i);
         output_destroy(OP);
     }
+
     vector_destroy(V);
 
     fclose(F);

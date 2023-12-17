@@ -240,8 +240,10 @@ void vector_destroy(Vector *v)
         return;
     }
 
-    free(v->data);
-    v->data = NULL;
+    if (v->data != NULL) {
+        free(v->data);
+        v->data = NULL;
+    }
     
     free(v);
     v = NULL;

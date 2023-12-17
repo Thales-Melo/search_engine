@@ -39,7 +39,7 @@ void libera_dados(Vector *words)
             free(word);
             word = NULL;
         }
-    }
+    }   
 
     // libera o vetor
     vector_destroy(words);
