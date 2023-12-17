@@ -14,20 +14,7 @@ void libera_dados(Vector *words);
 // uma funcao que recebe dois void* e nao dois char*.
 int compara_strings(void *a, void *b);
 
-void print_string(void *a);
-
-void print_key(void *a);
-
-void print_val(void *a);
-
 double get_timestamp();
 
-// void fprint_key(void *a, FILE *f);
-
-// void fprint_val(void *a, FILE *f);
-
-void fprint_string(void *a, FILE *f);
-
-void free_string(void *a);
 
 #endif
